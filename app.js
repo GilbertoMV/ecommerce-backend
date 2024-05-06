@@ -27,7 +27,7 @@ app.use(express.json());
 app.use('/products',validateToken, productsController);
 
 // Se manda a llamar al controlador del usuario
-app.use('/users',validateToken, usersController);
+app.use('/users', usersController);
 
 //Se manda a llamar al login
 app.use('/login', loginController);
