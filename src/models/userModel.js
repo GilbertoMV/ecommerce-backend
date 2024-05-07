@@ -1,4 +1,4 @@
-const bcrypt = require("bcrypt")
+const bcrypt = require('bcrypt')
 const { DB_NAME } = require("../db/config.js");
 const { getConnection } = require("../db/db.js");
 
@@ -30,6 +30,8 @@ const deleteUser = async (id) => {
 
 const updateUser = async (id, userData) => {
     const connection = await getConnection();
+    const hashContrasena = bcrypt.hashSync(userData.contrasena,10);
+    userData.contrasena = hashContrasena;
     const [rows] = await connection.query('UPDATE '+DB_NAME+'.Usuarios SET ? WHERE id_usuario = ?', [userData, id]);
     return rows.affectedRows;
 }

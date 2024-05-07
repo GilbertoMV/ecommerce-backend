@@ -1,10 +1,6 @@
 const express = require('express');
 const {
-     getAllUsers,
-     getUserById,
-     createUser,
-     deleteUser,
-     updateUser } = require('../models/usersModel');
+     getAllUsers,getUserById,createUser,deleteUser,updateUser} = require('../models/userModel');
 
 const router = express.Router();
 
@@ -17,7 +13,8 @@ function buildUserData(req) {
          correo,
          contrasena,
          fecha_nacimiento,
-         estado_cuenta } = req.body;
+         estado_cuenta 
+        } = req.body;
 
     const fecha_registro = new Date(); // Se crea fecha de registro
     //Se retorna un objeto que agrupa todos los valores con los solicitados en el req.body
