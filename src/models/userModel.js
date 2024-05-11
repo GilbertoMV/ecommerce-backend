@@ -14,14 +14,6 @@ const getUserById = async (id) => {
     return rows[0];
 }
 
-const createUser = async (userData) => {
-    const connection = await getConnection();
-    const hashContrasena = bcrypt.hashSync(userData.contrasena,10);
-    userData.contrasena = hashContrasena;
-    const [rows] = await connection.query('INSERT INTO '+DB_NAME+'.Usuarios SET ?', userData);
-    return rows.insertId;
-};
-
 const deleteUser = async (id) => {
     const connection = await getConnection();
     const [rows] = await connection.query('DELETE FROM '+DB_NAME+'.Usuarios WHERE id_usuario = ?', [id]);
@@ -39,7 +31,6 @@ const updateUser = async (id, userData) => {
 module.exports = {
     getAllUsers,
     getUserById,
-    createUser,
     deleteUser,
     updateUser
 };

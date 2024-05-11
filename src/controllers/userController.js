@@ -1,34 +1,8 @@
 const express = require('express');
 const {
-     getAllUsers,getUserById,createUser,deleteUser,updateUser} = require('../models/userModel');
-
+     getAllUsers,getUserById,deleteUser,updateUser} = require('../models/userModel');
+const {buildUserData} = require('../userData.js')
 const router = express.Router();
-
-function buildUserData(req) {
-    //Se manda a una solicitud HTTP (req.body), que dentro tiene todo lo que pide del POST
-    const {
-         nombre,
-         apellido_paterno,
-         apellido_materno,
-         correo,
-         contrasena,
-         fecha_nacimiento,
-         estado_cuenta 
-        } = req.body;
-
-    const fecha_registro = new Date(); // Se crea fecha de registro
-    //Se retorna un objeto que agrupa todos los valores con los solicitados en el req.body
-    return {
-        nombre,
-        apellido_paterno,
-        apellido_materno,
-        correo,
-        contrasena,
-        fecha_nacimiento,
-        fecha_registro,
-        estado_cuenta
-    };
-}
 
 //Ruta para obtener lo usuarios
 router.get('/', async (req,res)=>{
@@ -56,22 +30,6 @@ router.get('/:id', async (req,res)=>{
         res.status(500).json({ error: 'Error interno del servidor' });
     }
 })
-
-//Ruta para crear un usuario y asiganrle un ID
-router.post('/register', async (req, res) => { 
-    try{
-        //se declara la variable y se llama a la funcion buildUserData y se le pasa hacer la peticion y que debuelva el objeto con los valores 
-        const userData = buildUserData(req);
-        // Pasas userData al modelo para crear el usuario.
-        const userId = await createUser(userData);
-        // Si todo es exitoso, envías una respuesta con el ID del usuario creado.
-        res.status(201).json({ id: userId, message: 'Usuario creado exitosamente' });
-    } catch (error) {
-        // Si hay un error, se captura y envía una respuesta de error.
-        console.error('Error al crear el usuario:', error);
-        res.status(500).json({ error: 'Error interno del servidor' });
-    }
-});
 
 //Ruta para eliminar un usuario mediante ID
 router.delete('/delete/:id', async (req, res) => {
