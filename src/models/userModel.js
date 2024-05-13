@@ -15,12 +15,24 @@ const getUserById = async (id) => {
 }
 
 const createUser = async (userData) => {
-    const connection = await getConnection();
-    const hashContrasena = bcrypt.hashSync(userData.contrasena,10);
-    userData.contrasena = hashContrasena;
-    const [rows] = await connection.query('INSERT INTO '+DB_NAME+'.Usuarios SET ?', userData);
-    return rows.insertId;
-};
+    try {
+      const connection = await getConnection();
+      if (!userData.contrasena) {
+        throw new Error('La contraseña es requerida');
+      }
+      const hashContrasena = bcrypt.hashSync(userData.contrasena, 10);
+      userData.contrasena = hashContrasena;
+      const [rows] = await connection.query('INSERT INTO ' + DB_NAME + '.Usuarios SET ?', userData);
+      return rows.insertId;
+    } catch (error) {
+      if (error.code === 'ER_DUP_ENTRY') {
+        throw new Error('El correo ya está registrado');
+      }
+      console.error('Error al crear el usuario:', error);
+      throw error;
+    }
+  };
+  
 
 const deleteUser = async (id) => {
     const connection = await getConnection();
