@@ -1,33 +1,36 @@
 const express = require("express");
 const morgan = require("morgan");
+const cors = require("cors");
 const productsController = require("./src/controllers/productController.js");
 const usersController = require("./src/controllers/userController.js");
-const loginController = require ("./src/controllers/loginController.js")
-const { PORT } = require("./src/db/config.js");
+const loginController = require ("./src/controllers/loginController.js");
 const validateToken = require("./src/middlewares/validateToken.js");
+const { PORT } = require("./src/db/config.js");
 
 const app = express();
 
-// Middleware para habilitar CORS
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
-// Conexion al puerto 4000
+// Habilitar CORS
+app.use(cors({
+  origin: '*', // Considerar configurar dominios específicos en producción
+  optionsSuccessStatus: 200
+}));
+
+// Middleware para ver los logs de las solicitudes
+app.use(morgan("dev"));
+
+// Middleware para parsear JSON en las solicitudes
+app.use(express.json());
+
+// Conexion al puerto definido en la configuración
 app.listen(PORT, () => {
   console.log("Conexion establecida al puerto " + PORT);
 });
 
-// El middleware para ver los estatus
-app.use(morgan("dev"));
-app.use(express.json());
+// Rutas de los productos con validación de token
+app.use('/products', validateToken, productsController);
 
-// Se manda a llamar al controlador de catálogo productos
-app.use('/products',validateToken, productsController);
-
-// Se manda a llamar al controlador del usuario
+// Rutas de usuarios sin validación de token
 app.use('/user', usersController);
 
-//Se manda a llamar al login
+// Ruta de login sin validación de token
 app.use('/login', loginController);
