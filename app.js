@@ -1,5 +1,6 @@
 const express = require("express");
 const morgan = require("morgan");
+const cors = require("cors");
 const productsController = require("./src/controllers/productController.js");
 const usersController = require("./src/controllers/userController.js");
 const loginController = require ("./src/controllers/loginController.js")
@@ -7,7 +8,7 @@ const { PORT } = require("./src/db/config.js");
 const validateToken = require("./src/middlewares/validateToken.js");
 
 const app = express();
-
+app.use(cors());
 // Middleware para habilitar CORS
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
