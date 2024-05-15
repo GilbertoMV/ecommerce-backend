@@ -1,20 +1,21 @@
 import jwt from 'jsonwebtoken'
 
 const validateToken = (req, res, next) => {
-  const token = req.headers.authorization.split(' ')[1];  // Asumiendo que el token viene como 'Bearer <token>'
+    const token = req.headers['authorization'] ? req.headers['authorization'].split(' ')[1] : null;
 
-  if (!token) {
-    return res.status(403).json({ message: 'Se requiere token de autenticación' });
-  }
+    if (!token) {
+        return res.status(403).json({ message: 'Se requiere token de autenticación' });
+    }
 
-  try {
-    const decoded = jwt.verify(token, process.env.SECRET_KEY);
-    req.user = decoded;  // `decoded` ahora contiene el payload del token, incluido el ID del usuario
-    next();
-  } catch (error) {
-    res.status(401).json({ message: 'Token inválido o expirado' });
-  }
+    try {
+        const decoded = jwt.verify(token, process.env.SECRET_KEY);
+        req.user = decoded;
+        next();
+    } catch (error) {
+        res.status(401).json({ message: 'Token inválido o expirado' });
+    }
 };
+
 
 export {
     validateToken
