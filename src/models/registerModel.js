@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt'
-import getConnection from "../db/db.js"
+import getConnection from "../config/db.js"
 
 const createUser = async (userData) => {
     const connection = await getConnection();

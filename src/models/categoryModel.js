@@ -1,4 +1,4 @@
-import getConnection from '../db/db.js'
+import getConnection from '../config/db.js'
 
 //Funcion para obtener todas las categorias
 const getAllCategorys = async ()=>{

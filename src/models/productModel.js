@@ -1,4 +1,4 @@
-import getConnection from '../db/db.js'
+import getConnection from '../config/db.js'
 
 // Función para obtener todos los productos del catálogo
 const getAllProducts = async () => {
