@@ -98,6 +98,7 @@ router.get("/me", validateToken, async (req, res) => {
     const user = await getUserById(userId);
     if (!user) {
       res.status(404).json({ error: "Usuario no encontrado" });
+      res.status(403).json({error:userId})
       return;
     }
     res.json(user);
