@@ -15,3 +15,5 @@ const validateToken = (req, res, next) => {
     res.status(401).json({ message: 'Token inválido o expirado' });
   }
 };
+
+export default validateToken
