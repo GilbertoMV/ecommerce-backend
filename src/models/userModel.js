@@ -10,7 +10,8 @@ const getAllUsers = async () => {
 const getUserById = async (id) => {
     const connection = await getConnection();
     const [rows] = await connection.execute('SELECT * FROM '+process.env.DB_NAME+'.Usuarios WHERE id_usuario = ?', [id]);
-    return rows;
+    console.log(id)
+    return rows[0];
 }
 
 const deleteUser = async (id) => {
