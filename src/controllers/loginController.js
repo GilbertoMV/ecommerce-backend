@@ -1,8 +1,8 @@
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
-const express = require('express')
-const { getUserByEmail } = require('../models/loginModel');
-const { SECRET_KEY } = require('../db/config');
+import jwt from 'jsonwebtoken'
+import bcrypt from 'bcrypt'
+import express from 'express'
+import getUserByEmail from '../models/loginModel.js'
+import { SECRET_KEY } from '../db/config.js'
 
 const router = express.Router();
 
@@ -23,4 +23,4 @@ router.post('/', async (req, res) => {
     res.json({ message: 'Login exitoso', token });
 });
 
-module.exports = router;
+export default router;

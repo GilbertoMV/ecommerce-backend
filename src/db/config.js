@@ -6,7 +6,7 @@ const DB_PASSWORD = process.env.DB_PASSWORD || 'root';
 const DB_PORT = process.env.DB_PORT || 3306;
 const SECRET_KEY = process.env.SECRET_KEY || 'clavesecreta'
 
-module.exports = {
+export {
     PORT,
     DB_HOST,
     DB_NAME,

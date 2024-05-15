@@ -1,5 +1,5 @@
-const express = require('express');
-const { getAllProducts, getProductById } = require("../models/productModel");
+import express from 'express'
+import { getAllProducts, getProductById,deleteProduct } from "../models/productModel.js"
 
 const router = express.Router();
 
@@ -30,4 +30,18 @@ router.get('/:id', async (req, res) => {
   }
 })
 
-module.exports = router;
+router.delete('/delete/:id', async(req,res)=>{
+  const id = req.params.id;
+  try {
+    const deleteRows = await deleteProduct(id);
+    if(deleteRows>0){
+    res.json({message: 'Producto eliminado exitosamente'})
+  }else{
+    res.status(404).json({error:'Producto no encontrado'})
+  }
+  } catch (error) {
+    console.error('Error al eliminar el producto',error);
+    res.status(500).json({error:'Error interno del servidor'});
+  }
+})
+export default router;

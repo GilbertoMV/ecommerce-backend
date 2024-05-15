@@ -1,5 +1,5 @@
-const { DB_NAME } = require('../db/config.js');
-const { getConnection } = require('../db/db.js');
+import { DB_NAME } from '../db/config.js'
+import getConnection from '../db/db.js'
 
 
 async function getUserByEmail(email) {
@@ -7,4 +7,4 @@ async function getUserByEmail(email) {
     const [rows] = await connection.query('SELECT * FROM '+DB_NAME+'.Usuarios WHERE correo = ?', [email]);
     return rows[0];
 }
-module.exports = { getUserByEmail };
+export default getUserByEmail;
