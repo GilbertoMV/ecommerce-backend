@@ -16,4 +16,6 @@ const validateToken = (req, res, next) => {
   }
 };
 
-export default validateToken
+export {
+    validateToken
+}
