@@ -1,5 +1,6 @@
 import express from "express"
 import morgan from "morgan"
+import cors from 'cors'
 import productsController from "./src/controllers/productController.js"
 import usersController from "./src/controllers/userController.js"
 import loginController from  "./src/controllers/loginController.js"
