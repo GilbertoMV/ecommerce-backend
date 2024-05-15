@@ -1,5 +1,5 @@
-const express = require('express');
-const { getAllProducts, getProductById,deleteProduct } = require("../models/productModel.js");
+import express from 'express'
+import { getAllProducts, getProductById,deleteProduct } from "../models/productModel.js"
 
 const router = express.Router();
 
@@ -44,4 +44,4 @@ router.delete('/delete/:id', async(req,res)=>{
     res.status(500).json({error:'Error interno del servidor'});
   }
 })
-module.exports = router;
+export default router;

@@ -1,7 +1,6 @@
-const express = require('express');
-const {
-     getAllUsers,getUserById,deleteUser,updateUser} = require('../models/userModel');
-const {buildUserData} = require('../userData.js')
+import express from 'express'
+import {getAllUsers, getUserById,deleteUser,updateUser} from '../models/userModel.js'
+import buildUserData from '../userData.js'
 const router = express.Router();
 
 //Ruta para obtener lo usuarios
@@ -66,4 +65,4 @@ router.put('/configurate/:id', async(req,res)=>{
 })
 
 
-module.exports = router;
+export default router;

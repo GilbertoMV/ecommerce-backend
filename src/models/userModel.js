@@ -1,6 +1,6 @@
-const bcrypt = require('bcrypt')
-const { DB_NAME } = require("../db/config.js");
-const { getConnection } = require("../db/db.js");
+import bcrypt from 'bcrypt'
+import { DB_NAME } from "../db/config.js"
+import getConnection from "../db/db.js"
 
 const getAllUsers = async () => {
     const connection = await getConnection();
@@ -28,7 +28,7 @@ const updateUser = async (id, userData) => {
     return rows.affectedRows;
 }
 
-module.exports = {
+export {
     getAllUsers,
     getUserById,
     deleteUser,

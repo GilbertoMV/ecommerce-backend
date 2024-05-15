@@ -1,5 +1,5 @@
-const { DB_NAME } = require('../db/config.js');
-const { getConnection } = require('../db/db.js');
+import { DB_NAME } from '../db/config.js'
+import getConnection from '../db/db.js'
 
 // Función para obtener todos los productos del catálogo
 const getAllProducts = async () => {
@@ -21,7 +21,7 @@ const deleteProduct = async(id)=>{
   const [rows] = await connection.query('DELETE FROM '+DB_NAME+'.CatalogoProductos WHERE id_producto = ?',[id])
   return rows.affectedRows;
 }
-module.exports = {
+export {
   deleteProduct,
   getAllProducts,
   getProductById

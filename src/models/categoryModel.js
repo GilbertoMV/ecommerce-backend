@@ -1,5 +1,5 @@
-const {DB_NAME} = require('../db/config.js')
-const {getConnection} = require('../db/db.js')
+import {DB_NAME} from '../db/config.js'
+import getConnection from '../db/db.js'
 
 //Funcion para obtener todas las categorias
 const getAllCategorys = async ()=>{
@@ -21,8 +21,8 @@ const deleteCategory = async(id)=>{
     return rows.affectedRows;
 }
 //Funcion para actualizar una categoria
-module.exports = {
+export {
     getAllCategorys,
     getCategoryById,
     deleteCategory
-};
+}

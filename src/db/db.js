@@ -1,5 +1,5 @@
-const mysql = require("mysql2/promise");
-const { DB_HOST, DB_NAME, DB_PASSWORD, DB_PORT, DB_USER } = require("./config.js");
+import mysql from "mysql2/promise"
+import { DB_HOST, DB_NAME, DB_PASSWORD, DB_PORT, DB_USER } from "./config.js"
 
 const connection = mysql.createConnection({
     host: DB_HOST,
@@ -11,6 +11,5 @@ const connection = mysql.createConnection({
 
 const getConnection = async () => await connection;
 
-module.exports = {
-    getConnection
-};
+export default getConnection;
+

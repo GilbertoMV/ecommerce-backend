@@ -1,5 +1,5 @@
-const jwt = require('jsonwebtoken');
-const { SECRET_KEY } = require('../db/config');
+import jwt from 'jsonwebtoken'
+import { SECRET_KEY } from '../db/config.js'
 
 //Nota next es para pasar al siguiente middleware
 const validateToken = (req, res, next) => {
@@ -21,4 +21,6 @@ const validateToken = (req, res, next) => {
     }
 };
 
-module.exports = validateToken;
+export {
+    validateToken
+}

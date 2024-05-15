@@ -1,7 +1,6 @@
-const express = require('express')
-const {createUser} = require('../models/registerModel.js');
-const { buildUserData } = require('../userData.js');
-const { route } = require('./loginController.js');
+import express from 'express'
+import createUser from '../models/registerModel.js'
+import buildUserData from '../userData.js'
 
 const router = express.Router();
 //Ruta para crear un usuario y asiganrle un ID
@@ -20,4 +19,4 @@ router.post('/', async (req, res) => {
     }
 });
 
-module.exports = router;
+export default router;

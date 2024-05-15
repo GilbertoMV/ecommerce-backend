@@ -23,7 +23,4 @@ function buildUserData(req) {
         estado_cuenta
     };
 }
-
-module.exports = {
-    buildUserData
-};
+export default buildUserData

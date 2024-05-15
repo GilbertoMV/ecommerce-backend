@@ -1,6 +1,6 @@
-const bcrypt = require('bcrypt')
-const { DB_NAME } = require("../db/config.js");
-const { getConnection } = require("../db/db.js");
+import bcrypt from 'bcrypt'
+import { DB_NAME } from "../db/config.js"
+import getConnection from "../db/db.js"
 
 const createUser = async (userData) => {
     const connection = await getConnection();
@@ -10,4 +10,4 @@ const createUser = async (userData) => {
     return rows.insertId;
 };
 
-module.exports = {createUser}
+export default createUser

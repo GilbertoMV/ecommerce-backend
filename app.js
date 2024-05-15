@@ -1,12 +1,12 @@
-const express = require("express");
-const morgan = require("morgan");
-const productsController = require("./src/controllers/productController.js");
-const usersController = require("./src/controllers/userController.js");
-const loginController = require ("./src/controllers/loginController.js")
-const registerController = require('./src/controllers/registerController.js')
-const categoryController = require('./src/controllers/categoryController.js')
-const { PORT } = require("./src/db/config.js");
-const validateToken = require("./src/middlewares/validateToken.js");
+import express from "express"
+import morgan from "morgan"
+import productsController from "./src/controllers/productController.js"
+import usersController from "./src/controllers/userController.js"
+import loginController from  "./src/controllers/loginController.js"
+import registerController from './src/controllers/registerController.js'
+import categoryController from './src/controllers/categoryController.js'
+import { PORT } from "./src/db/config.js"
+import {validateToken} from "./src/middlewares/validateToken.js"
 
 const app = express();
 

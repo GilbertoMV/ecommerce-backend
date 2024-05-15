@@ -1,5 +1,5 @@
-const express = require('express')
-const {getAllCategorys,getCategoryById,deleteCategory} = require('../models/categoryModel.js');
+import express from 'express'
+import {getAllCategorys,getCategoryById,deleteCategory} from '../models/categoryModel.js'
 
 const router = express.Router();
 
@@ -48,4 +48,4 @@ router.delete('/delete/:id',async(res,req)=>{
 })
 
 //Ruta para configurar una categoria
-module.exports = router;
+export default router;
