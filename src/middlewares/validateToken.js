@@ -1,29 +1,26 @@
 import jwt from 'jsonwebtoken';
 
 const validateToken = (req, res, next) => {
-    // Extrae el token de la cabecera Authorization, asumiendo que viene en formato "Bearer <token>"
     const token = req.headers['authorization'] ? req.headers['authorization'].split(' ')[1] : null;
 
-    // Verifica si el token está presente
     if (!token) {
         return res.status(403).json({ message: 'Se requiere token de autenticación' });
     }
 
     try {
-        // Decodifica el token usando la clave secreta de JWT
         const decoded = jwt.verify(token, process.env.SECRET_KEY);
-        
-        // Imprime el objeto decodificado para depuración
-        console.log("Token decodificado:", decoded);
+        console.log("Token decodificado:", decoded);  // Muestra el objeto JWT decodificado
 
-        // Guarda la información del usuario decodificado en el objeto de solicitud
-        req.user = decoded;
+        const userId = decoded.id;  // Asumiendo que el ID del usuario está almacenado en el token como 'id'
+        console.log("UserID extraído del token:", userId);  // Imprime el userId
+
+        req.user = { id: userId };  // Guarda el userId en el objeto request para uso posterior
         next(); // Pasa al siguiente middleware o controlador
     } catch (error) {
-        // Captura cualquier error relacionado con la verificación del token
         console.error("Error al verificar el token:", error);
         res.status(401).json({ message: 'Token inválido o expirado' });
     }
 };
+
 
 export { validateToken };

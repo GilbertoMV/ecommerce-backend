@@ -92,13 +92,11 @@ router.put("/configurate/:id", async (req, res) => {
 
 // Ruta para obtener los datos del usuario logueado a partir de su token JWT
 router.get("/me", validateToken, async (req, res) => {
-  const userId = req.id; // Suponiendo que tu middleware de validación de token añade 'user' al 'req'
-  console.log(userId)
+  const userId = req.user.id; // Suponiendo que tu middleware de validación de token añade 'user' al 'req'
   try {
     const user = await getUserById(userId);
     if (!user) {
       res.status(404).json({ error: "Usuario no encontrado" });
-      res.status(403).json({error:userId})
       return;
     }
     res.json(user);
