@@ -17,9 +17,8 @@ app.use(cors({
 }));
 
 // Conexion al puerto definido en la configuración
-const port = process.env.PORT || 4000;
-app.listen(port, () => {
-  console.log("Conexion establecida al puerto " + port);
+app.listen(process.env.PORT, () => {
+  console.log("Conexion establecida al puerto " + process.env.PORT);
 });
 
 // El middleware para ver los estatus
