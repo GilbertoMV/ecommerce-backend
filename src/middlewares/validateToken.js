@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken'
 //Nota next es para pasar al siguiente middleware
 const validateToken = (req, res, next) => {
     //Se requiere que en el encabezado este el authorization y el token, si lo esta lo guarda en const token (el encabezado es parte del front)
-    const token = req.headers['authorization']; 
+    const token = req.headers['authorization'] ? req.headers['authorization'].split(' ')[1] : null;
     //Si no hay token se manda un 403 que es Acceso denegado prohibido
     if (!token) {
         return res.status(403).json({ message: 'Se requiere token de autenticación' });
