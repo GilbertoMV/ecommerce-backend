@@ -17,5 +17,5 @@ const validateToken = (req, res, next) => {
 };
 
 export {
-    vali
+    validateToken
 }
