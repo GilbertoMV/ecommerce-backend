@@ -24,4 +24,6 @@ function buildUserData(req) {
     };
 }
 
-module.exports = {buildUserData}
+module.exports = {
+    buildUserData
+};

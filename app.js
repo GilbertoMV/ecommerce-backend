@@ -4,6 +4,7 @@ const productsController = require("./src/controllers/productController.js");
 const usersController = require("./src/controllers/userController.js");
 const loginController = require ("./src/controllers/loginController.js")
 const registerController = require('./src/controllers/registerController.js')
+const categoryController = require('./src/controllers/categoryController.js')
 const { PORT } = require("./src/db/config.js");
 const validateToken = require("./src/middlewares/validateToken.js");
 
@@ -24,14 +25,16 @@ app.listen(PORT, () => {
 app.use(morgan("dev"));
 app.use(express.json());
 
+//Se manda a llamar al register
+app.use('/register',registerController);
+
+//Se manda a llamar al login
+app.use('/login', loginController);
+
 // Se manda a llamar al controlador de catálogo productos
 app.use('/products',validateToken, productsController);
 
 // Se manda a llamar al controlador del usuario
 app.use('/user',validateToken, usersController);
 
-//Se manda a llamar al register
-app.use('/register',registerController);
-
-//Se manda a llamar al login
-app.use('/login', loginController);
+app.use('/categorys',categoryController);

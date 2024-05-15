@@ -15,7 +15,14 @@ const getProductById = async (id) => {
   return rows[0];
 };
 
+//Funcion para borrar productos por su ID
+const deleteProduct = async(id)=>{
+  const connection = await getConnection();
+  const [rows] = await connection.query('DELETE FROM '+DB_NAME+'.CatalogoProductos WHERE id_producto = ?',[id])
+  return rows.affectedRows;
+}
 module.exports = {
+  deleteProduct,
   getAllProducts,
   getProductById
 };
