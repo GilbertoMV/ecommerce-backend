@@ -15,7 +15,8 @@ const validateToken = (req, res, next) => {
         console.log("UserID extraído del token:", userId);
         console.log("el tipo de dato es:", typeof(userId))  // Imprime el userId
 
-        req.user = { id: userId };  // Guarda el userId en el objeto request para uso posterior
+        req.user = { id: userId };
+        console.log(req.user.id)  // Guarda el userId en el objeto request para uso posterior
         next(); // Pasa al siguiente middleware o controlador
     } catch (error) {
         console.error("Error al verificar el token:", error);
