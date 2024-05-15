@@ -2,7 +2,6 @@ import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 import express from 'express'
 import getUserByEmail from '../models/loginModel.js'
-import { SECRET_KEY } from '../db/config.js'
 
 const router = express.Router();
 
@@ -19,7 +18,7 @@ router.post('/', async (req, res) => {
     }
 
     //Si la contraseña esta bien generamos el token con el ID y lo firmamos con la llave secreta, esta puede estar guardada en el railway
-    const token = jwt.sign({ id: user.id_usuario }, SECRET_KEY, { expiresIn: '7d' }); //Tiene expiracion (quiero ver si refrescarla o dejarlo sin tiempo
+    const token = jwt.sign({ id: user.id_usuario }, process.env.SECRET_KEY, { expiresIn: '7d' }); //Tiene expiracion (quiero ver si refrescarla o dejarlo sin tiempo
     res.json({ message: 'Login exitoso', token });
 });
 

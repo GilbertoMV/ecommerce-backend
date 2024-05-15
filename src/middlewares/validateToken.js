@@ -1,5 +1,4 @@
 import jwt from 'jsonwebtoken'
-import { SECRET_KEY } from '../db/config.js'
 
 //Nota next es para pasar al siguiente middleware
 const validateToken = (req, res, next) => {
@@ -12,7 +11,7 @@ const validateToken = (req, res, next) => {
 
     try {
         //Lo que hace el jwt.verify es agarrar el token y la llave secreta, si el token es valido se decodifica y se guarda en el const 
-        const decodificado = jwt.verify(token, SECRET_KEY);
+        const decodificado = jwt.verify(token, process.env.SECRET_KEY);
         req.user = decodificado; // Guarda la informacion decodificada en el req.user para usarla luego si es necesaria
         next(); // Continúa con la siguiente función de middleware
     } catch (error) {

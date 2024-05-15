@@ -6,7 +6,6 @@ import usersController from "./src/controllers/userController.js"
 import loginController from  "./src/controllers/loginController.js"
 import registerController from './src/controllers/registerController.js'
 import categoryController from './src/controllers/categoryController.js'
-import { PORT } from "./src/db/config.js"
 import {validateToken} from "./src/middlewares/validateToken.js"
 
 const app = express();
@@ -17,15 +16,9 @@ app.use(cors({
   optionsSuccessStatus: 200
 }));
 
-// Middleware para ver los logs de las solicitudes
-app.use(morgan("dev"));
-
-// Middleware para parsear JSON en las solicitudes
-app.use(express.json());
-
 // Conexion al puerto definido en la configuración
-app.listen(PORT, () => {
-  console.log("Conexion establecida al puerto " + PORT);
+app.listen(process.env.PORT, () => {
+  console.log("Conexion establecida al puerto " + process.env.PORT);
 });
 
 // El middleware para ver los estatus
