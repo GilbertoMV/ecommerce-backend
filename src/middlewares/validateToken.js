@@ -12,7 +12,8 @@ const validateToken = (req, res, next) => {
         console.log("Token decodificado:", decoded);  // Muestra el objeto JWT decodificado
 
         const userId = decoded.id;  // Asumiendo que el ID del usuario está almacenado en el token como 'id'
-        console.log("UserID extraído del token:", userId);  // Imprime el userId
+        console.log("UserID extraído del token:", userId);
+        console.log("el tipo de dato es:", typeof(userId))  // Imprime el userId
 
         req.user = { id: userId };  // Guarda el userId en el objeto request para uso posterior
         next(); // Pasa al siguiente middleware o controlador
