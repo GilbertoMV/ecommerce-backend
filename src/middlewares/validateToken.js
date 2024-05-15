@@ -1,4 +1,4 @@
-const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken'
 
 const validateToken = (req, res, next) => {
   const token = req.headers.authorization.split(' ')[1];  // Asumiendo que el token viene como 'Bearer <token>'
@@ -17,5 +17,5 @@ const validateToken = (req, res, next) => {
 };
 
 export {
-    validateToken
+    vali
 }
