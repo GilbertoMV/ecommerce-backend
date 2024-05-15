@@ -10,13 +10,19 @@ import {validateToken} from "./src/middlewares/validateToken.js"
 
 const app = express();
 
-// Middleware para habilitar CORS
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
-// Conexion al puerto 4000
+// Habilitar CORS
+app.use(cors({
+  origin: '*', // Considerar configurar dominios específicos en producción
+  optionsSuccessStatus: 200
+}));
+
+// Middleware para ver los logs de las solicitudes
+app.use(morgan("dev"));
+
+// Middleware para parsear JSON en las solicitudes
+app.use(express.json());
+
+// Conexion al puerto definido en la configuración
 app.listen(PORT, () => {
   console.log("Conexion establecida al puerto " + PORT);
 });
