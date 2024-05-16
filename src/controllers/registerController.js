@@ -4,7 +4,7 @@ import buildUserData from '../userData.js'
 
 const router = express.Router();
 //Ruta para crear un usuario y asiganrle un ID
-router.post("/register", async (req, res) => {
+router.post("/", async (req, res) => {
     try {
       //se declara la variable y se llama a la funcion buildUserData y se le pasa hacer la peticion y que debuelva el objeto con los valores
       const userData = buildUserData(req);
