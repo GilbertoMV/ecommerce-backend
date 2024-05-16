@@ -6,12 +6,12 @@ import getUserByEmail from '../models/loginModel.js'
 const router = express.Router();
 
 router.post('/', async (req, res) => {
-    const {  estado_cuenta,correo, contrasena } = req.body; //Saca el correo y contraseña del POST
+    const {  correo, contrasena } = req.body; //Saca el correo y contraseña del POST
     const user = await getUserByEmail(correo); //Busca en la base de datos el correo que se mando en el POST y trae todos los datos de ese correo
     if (!user) { //Si no se encuentra manda error 404
         return res.status(404).json({ message: 'Usuario no encontrado' });
     }
-    if(estado_cuenta === '0') {
+    if(user.estado_cuenta === '0') {
         return res.status(401).json({message: 'Cuenta innactiva'})
     }
     const isPasswordValid = bcrypt.compareSync(contrasena, user.contrasena); //Compara con el bcrypt la contraseña que se mando en el POST con la de la DB
