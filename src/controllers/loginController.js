@@ -15,7 +15,7 @@ router.post('/', async (req, res) => {
     if (!isPasswordValid) { //En caso de no ser se manda el status 401 de no autorizado
         return res.status(401).json({ message: 'Contraseña incorrecta' });
     }
-    if(estado_cuenta != '1') {
+    if(estado_cuenta === '0') {
         return res.status(401).json({message: 'Cuenta innactiva'})
     }
     //Si la contraseña esta bien generamos el token con el ID y lo firmamos con la llave secreta, esta puede estar guardada en el railway
