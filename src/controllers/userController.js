@@ -62,7 +62,7 @@ router.post("/register", async (req, res) => {
     // Si hay un error, se captura y envía una respuesta de error.
     console.error("Error al crear el usuario:", error);
     if (error.code === "ER_DUP_ENTRY") {
-      res.status(400).json({ error: error.message });
+      res.status(400).json({ error: "Email already register" });
     } else {
       res.status(500).json({ error: "Error interno del servidor" });
     }

@@ -15,7 +15,7 @@ router.post("/", async (req, res) => {
     } catch (error) {
       // Si hay un error, se captura y envía una respuesta de error.
       console.error("Error al crear el usuario:", error);
-      if (error.message === "mail is already registered") {
+      if (error.message === "Mail is already registered") {
         return res.status(400).json({ error: error.message });
       } else {
         res.status(500).json({ error: "Error interno del servidor" });
