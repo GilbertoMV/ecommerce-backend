@@ -1,6 +1,7 @@
 import express from 'express'
 import {getAllUsers, getUserById,deleteUser,updateUser} from '../models/userModel.js'
 import buildUserData from '../userData.js'
+import {validateToken} from '../middlewares/validateToken.js'
 const router = express.Router();
 
 //Ruta para obtener lo usuarios
@@ -13,7 +14,22 @@ router.get("/", async (req, res) => {
     console.error("Error al obtener los usuarios:", error);
   }
 });
+// Ruta para obtener los datos del usuario logueado a partir de su token JWT
+router.get("/me", validateToken, async (req, res) => {
+  const userId = req.user.id;
 
+  try {
+    const user = await getUserById(userId);
+    if (!user) {
+      res.status(404).json({ error: "Usuario no encontrado" });
+      return;
+    }
+    res.json(user);
+  } catch (error) {
+    console.error("Error al obtener datos del usuario:", error);
+    res.status(500).json({ error: "Error interno del servidor" });
+  }
+});
 //Ruta para obtener el usuario por ID
 router.get("/:id", async (req, res) => {
   const id = req.params.id;
@@ -65,5 +81,9 @@ router.put("/configurate/:id", async (req, res) => {
     res.status(500).json({ error: "Error interno del servidor" });
   }
 });
+
+
+
+
 
 export default router;
