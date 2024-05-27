@@ -1,6 +1,6 @@
 import express from 'express'
 import {getAllUsers, getUserById,deleteUser,updateUser} from '../models/userModel.js'
-import buildUserData from '../userData.js'
+import buildUserData from '../data/userData.js'
 import {validateToken} from '../middlewares/validateToken.js'
 const router = express.Router();
 

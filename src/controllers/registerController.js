@@ -1,6 +1,6 @@
 import express from 'express'
 import createUser from '../models/registerModel.js'
-import buildUserData from '../userData.js'
+import buildUserData from '../data/userData.js'
 
 const router = express.Router();
 //Ruta para crear un usuario y asiganrle un ID
