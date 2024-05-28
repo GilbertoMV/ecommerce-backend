@@ -22,7 +22,7 @@ const deleteCategory = async(id)=>{
 //Funcion para crear una categoria
 const createCategory = async(categorysData)=>{
     const connection = await getConnection();
-    const [rows] = await connection.query('INSERT INTO '+process.env.DB_NAME+'.CategoriaProductos SET ?', categorysData);
+    const [rows] = await connection.query('INSERT INTO '+process.env.DB_NAME+'.CategoriasProductos SET ?', categorysData);
     return rows.insertId
   }
   //Funcion para editar una categoria
