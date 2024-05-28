@@ -3,7 +3,7 @@ import getConnection from "../config/db.js"
 
 const getAllUsers = async () => {
     const connection = await getConnection();
-    const [rows] = await connection.execute('SELECT * FROM '+process.env.DB_NAME+'.Usuarios');
+    const [rows] = await connection.execute('SELECT * FROM '+process.env.DB_NAME+'.Usuario');
     return rows;
 }
 
