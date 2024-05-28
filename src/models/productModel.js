@@ -20,8 +20,25 @@ const deleteProduct = async(id)=>{
   const [rows] = await connection.query('DELETE FROM '+process.env.DB_NAME+'.CatalogoProductos WHERE id_producto = ?',[id])
   return rows.affectedRows;
 }
+
+//Funcion para crear un producto
+const createProduct = async(productData)=>{
+  const connection = await getConnection();
+  const [rows] = await connection.query('INSERT INTO '+process.env.DB_NAME+'.CatalogoProductos SET ?', productData);
+  return rows.insertId
+}
+//Funcion para editar un producto
+const updateProduct = async (id,productData)=>{
+  const connection = await getConnection();
+  const [rows] = await connection.query('UPDATE '+process.env.DB_NAME+'.CatalogoProductos SET ? WHERE id_producto = ?',[productData,id]);
+  return rows.affectedRows;
+}
+
+
 export {
-  deleteProduct,
   getAllProducts,
-  getProductById
+  getProductById,
+  deleteProduct,
+  createProduct,
+  updateProduct
 };

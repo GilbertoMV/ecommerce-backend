@@ -14,10 +14,10 @@ router.get("/", async (req, res) => {
     console.error("Error al obtener los usuarios:", error);
   }
 });
+
 // Ruta para obtener los datos del usuario logueado a partir de su token JWT
 router.get("/me", validateToken, async (req, res) => {
   const userId = req.user.id;
-
   try {
     const user = await getUserById(userId);
     if (!user) {
@@ -30,23 +30,6 @@ router.get("/me", validateToken, async (req, res) => {
     res.status(500).json({ error: "Error interno del servidor" });
   }
 });
-//Ruta para obtener el usuario por ID
-router.get("/:id", async (req, res) => {
-  const id = req.params.id;
-  try {
-    const userId = await getUserById(id);
-    if (!userId) {
-      //Si no se encuentra el usuario se manda error
-      res.status(404).json({ error: "Usuario no encontrado" });
-      return;
-    }
-    res.json(userId); //si se encuentra se responde el ID como JSON
-  } catch (error) {
-    console.error("Error al obtener el usuario:", error);
-    res.status(500).json({ error: "Error interno del servidor" });
-  }
-});
-
 //Ruta para eliminar un usuario mediante ID
 router.delete("/delete/:id", async (req, res) => {
   const id = req.params.id; // Obtienes el ID de la solicitud
