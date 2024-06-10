@@ -1,79 +1,76 @@
-import express from 'express'
-import {getAllCategorys,getCategoryById,deleteCategory, createCategory, updateCategory} from '../models/categoryModel.js'
-import buildCategorysData from '../data/categorysData.js'
-const router = express.Router();
+import Category from '../models/categoryModel.js';
 
-//Ruta para obtener todos las categorias
-router.get('/', async (req,res) => {
-    try {
-        const categorys = await getAllCategorys();
-        res.json(categorys);
-    } catch (error) {
-        console.error('Error al obtener las categorias',error);
-        res.status(500).json({ error: 'Error interno del servidor' });
+export const getAllCategories = async (req, res) => {
+  try {
+    const categories = await Category.findAll();
+    res.json(categories);
+  } catch (error) {
+    console.error('Error al obtener las categorías', error);
+    res.status(500).json({ error: 'Error interno del servidor' });
+  }
+};
+
+export const getCategoryById = async (req, res) => {
+  const id_categoria = req.params.id;
+  try {
+    const category = await Category.findByPk(id_categoria);
+    if (!category) {
+      res.status(404).json({ error: 'Categoría no encontrada' });
+      return;
     }
-});
+    res.json(category);
+  } catch (error) {
+    console.error('Error al obtener la categoría:', error);
+    res.status(500).json({ error: 'Error interno del servidor' });
+  }
+};
 
-//Ruta para obtener una categoria por ID
-router.get('/:id',async(req,res)=>{
-    const id = req.params.id;
-    try {
-        //Mandamos a llamar a getCategoryById y guardamos la consulta categoryById
-        const categoryById = await getCategoryById(id);
-        if(!categoryById){ //Si no se regresa se manda error 404
-            res.status(404).json({error:'Categoria no encontrada'});
-            return;
-        }
-        res.json(categoryById) //Si se encuentra se manda en JSON
-    } catch (error) {
-        console.error('Error al obtener el producto:',error)
-        res.status(500).json({error:'Error interno del servidor'})
+export const deleteCategory = async (req, res) => {
+  const id_categoria = req.params.id;
+  try {
+    const result = await Category.destroy({ where: { id_categoria } });
+    if (result > 0) {
+      res.json({ message: 'Categoría eliminada exitosamente' });
+    } else {
+      res.status(404).json({ error: 'Categoría no encontrada' });
     }
-});
+  } catch (error) {
+    console.error('Error al eliminar la categoría:', error);
+    res.status(500).json({ error: 'Error interno del servidor' });
+  }
+};
 
-//Ruta para eliminar una categoria
-router.delete('/delete/:id',async(res,req)=>{
-    const id = req.params.id;
-    try {
-        const deleteRows = await deleteCategory(id);
-        if(deleteRows>0){
-            res.json({message:'Categoria eliminada exitosamente'});
-        }else{
-            res.status(404).json({error:'Categoria no encontrada'});
-        }
-    } catch (error) {
-        console.error('Error al eliminar categoria',error);
-        res.status(500).json({error:'Error interno del servidor'});
+export const createCategory = async (req, res) => {
+  const { nombre, descripcion,url_imagen } = req.body;
+  try {
+    const newCategory = await Category.create({
+      nombre,
+      descripcion,
+      url_imagen
+    });
+    res.status(201).json({ id: newCategory.id_categoria, message: 'Categoría creada exitosamente' });
+  } catch (error) {
+    console.error('Error al crear categoría:', error);
+    res.status(500).json({ error: 'Error interno del servidor' });
+  }
+};
+
+export const updateCategory = async (req, res) => {
+  const id_categoria = req.params.id;
+  const { nombre, descripcion,url_imagen } = req.body;
+  try {
+    const [updated] = await Category.update({
+      nombre,
+      descripcion,
+      url_imagen
+    }, { where: { id_categoria } });
+    if (updated) {
+      res.json({ message: 'Categoría actualizada exitosamente' });
+    } else {
+      res.status(404).json({ error: 'Categoría no encontrada' });
     }
-})
-
-//Ruta para crear una categoria
-router.post('/create',async(req,res)=>{
-    try {
-        const categoryData = buildCategorysData(req);
-        const categorysId = await createCategory(categoryData);
-        res.status(201).json({id:categorysId,message:'Categoria Creada exitosamente'})
-    } catch (error) {
-        console.error('Error al crear categoria:',error);
-        res.status(500).json({error:'Error interno del servidor'}); 
-    }
-})
-
-//Ruta para actualizar categoria con ID
-router.put('/configurate/:id',async(req,res)=>{
-    const id = req.params.id;
-    const categoryData = buildCategorysData(req);
-    try {
-        const Update = await updateCategory(id,categoryData);
-        if(Update>0){
-            res.json({message:'Categoria actualizada'});
-        }else{
-            res.status(404).json({error:'Categoria no encontrada'});
-        }
-    } catch (error) {
-        console.error("Error al actualizar la categoria:", error);
-        res.status(500).json({ error: "Error interno del servidor" });
-    }
-})
-
-export default router;
+  } catch (error) {
+    console.error('Error al actualizar la categoría:', error);
+    res.status(500).json({ error: 'Error interno del servidor' });
+  }
+};

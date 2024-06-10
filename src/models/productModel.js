@@ -1,44 +1,52 @@
-import getConnection from '../config/db.js'
+import { DataTypes } from 'sequelize';
+import { sequelize } from '../config/db.js';
 
-// Función para obtener todos los productos del catálogo
-const getAllProducts = async () => {
-  const connection = await getConnection();
-  const [rows] = await connection.execute('SELECT * FROM '+process.env.DB_NAME+'.CatalogoProductos');
-  return rows;
-};
+const Product = sequelize.define('Product', {
+  id_producto: {
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  id_categoria: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  id_usuario: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  nombre: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  caracteristicas: {
+    type: DataTypes.TEXT,
+    allowNull: true,
+  },
+  descripcion: {
+    type: DataTypes.TEXT,
+    allowNull: true,
+  },
+  precio: {
+    type: DataTypes.DECIMAL(5,2),
+    allowNull: false,
+  },
+  existencias:{
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  huella_carbono:{
+    type: DataTypes.DECIMAL(5,2),
+    allowNull: false,
+  },
+  puntos_recompensa: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  // Agrega otros campos según sea necesario
+}, {
+  tableName: 'CatalogoProductos',
+  timestamps: false,
+});
 
-// Función para obtener el producto por su ID
-const getProductById = async (id) => {
-  const connection = await getConnection();
-  const [rows] = await connection.execute('SELECT * FROM '+process.env.DB_NAME+'.CatalogoProductos WHERE id_producto = ?', [id]);
-  return rows[0];
-};
-
-//Funcion para borrar productos por su ID
-const deleteProduct = async(id)=>{
-  const connection = await getConnection();
-  const [rows] = await connection.query('DELETE FROM '+process.env.DB_NAME+'.CatalogoProductos WHERE id_producto = ?',[id])
-  return rows.affectedRows;
-}
-
-//Funcion para crear un producto
-const createProduct = async(productData)=>{
-  const connection = await getConnection();
-  const [rows] = await connection.query('INSERT INTO '+process.env.DB_NAME+'.CatalogoProductos SET ?', productData);
-  return rows.insertId
-}
-//Funcion para editar un producto
-const updateProduct = async (id,productData)=>{
-  const connection = await getConnection();
-  const [rows] = await connection.query('UPDATE '+process.env.DB_NAME+'.CatalogoProductos SET ? WHERE id_producto = ?',[productData,id]);
-  return rows.affectedRows;
-}
-
-
-export {
-  getAllProducts,
-  getProductById,
-  deleteProduct,
-  createProduct,
-  updateProduct
-};
+export default Product;

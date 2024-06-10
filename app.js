@@ -1,12 +1,13 @@
-import express from "express"
-import morgan from "morgan"
-import cors from 'cors'
-import productsController from "./src/controllers/productController.js"
-import usersController from "./src/controllers/userController.js"
-import loginController from  "./src/controllers/loginController.js"
-import registerController from './src/controllers/registerController.js'
-import categoryController from './src/controllers/categoryController.js'
+import express from "express";
+import morgan from "morgan";
+import cors from 'cors';
+import productRoutes from "./src/routes/productRoutes.js"
+import userRoutes from "./src/routes/userRoutes.js"
+import loginRoutes from  "./src/routes/loginRoutes.js"
+import registerRoutes from './src/routes/registerRoutes.js'
+import categoryRoutes from './src/routes/categoryRoutes.js'
 import {validateToken} from "./src/middlewares/validateToken.js"
+import { connectToDatabase } from './src/config/db.js';
 
 const app = express();
 
@@ -16,26 +17,32 @@ app.use(cors({
   optionsSuccessStatus: 200
 }));
 
-// Conexion al puerto definido en la configuración
-const port = process.env.PORT || 4000;
-app.listen(port, () => {
-  console.log("Conexion establecida al puerto " + port);
-});
+// Conectar a la base de datos
+const startServer = async () => {
+  try {
+    await connectToDatabase();
+    console.log("Conexión a la base de datos establecida exitosamente.");
 
-// El middleware para ver los estatus
-app.use(morgan("dev"));
-app.use(express.json());
+    // El middleware para ver los estatus
+    app.use(morgan("dev"));
+    app.use(express.json());
 
-//Se manda a llamar al register
-app.use('/register',registerController);
+    // Rutas de la aplicación
+    app.use('/register', registerRoutes);
+    app.use('/login', loginRoutes);
+    app.use('/products', validateToken, productRoutes);
+    app.use('/users', validateToken,userRoutes);
+    app.use('/categories', categoryRoutes);
 
-//Se manda a llamar al login
-app.use('/login', loginController);
+    // Conexion al puerto definido en la configuración
+    const port = process.env.PORT || 4000;
+    app.listen(port, () => {
+      console.log("Conexión establecida al puerto " + port);
+    });
 
-// Se manda a llamar al controlador de catálogo productos
-app.use('/products',validateToken, productsController);
+  } catch (error) {
+    console.error("Error al iniciar el servidor:", error);
+  }
+};
 
-// Se manda a llamar al controlador del usuario
-app.use('/user',validateToken, usersController);
-
-app.use('/categorys',categoryController);
+startServer();
