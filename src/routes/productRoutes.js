@@ -10,10 +10,10 @@ import {
 
 const router = express.Router();
 
-router.get('/', getAllProducts);            // Ruta para obtener todos los productos
-router.get('/:id', getProductById);         // Ruta para obtener un producto por su ID
-router.delete('/delete/:id', deleteProduct); // Ruta para eliminar un producto por su ID
-router.post('/create', createProduct);      // Ruta para crear un nuevo producto
-router.put('/configurate/:id', updateProduct); // Ruta para actualizar un producto por su ID
+router.get('/', getAllProducts);            
+router.get('/:id', getProductById);         
+router.delete('/delete/:id', deleteProduct);
+router.post('/create', createProduct);     
+router.put('/configurate/:id', updateProduct); 
 
 export default router;
