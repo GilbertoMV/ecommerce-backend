@@ -1,19 +1,32 @@
-import express from 'express'
-import createUser from '../models/registerModel.js'
-import buildUserData from '../data/userData.js'
+import express from 'express';
+import User from '../models/userModel.js';
 
 const router = express.Router();
-//Ruta para crear un usuario y asiganrle un ID
-router.post('/', async (req, res) => { 
-    try{
-        //se declara la variable y se llama a la funcion buildUserData y se le pasa hacer la peticion y que debuelva el objeto con los valores 
-        const userData = buildUserData(req);
-        // Pasas userData al modelo para crear el usuario.
-        const userId = await createUser(userData);
-        // Si todo es exitoso, envías una respuesta con el ID del usuario creado.
-        res.status(201).json({ id: userId, message: 'Usuario creado exitosamente' });
+
+router.post('/', async (req, res) => {
+    const { nombre, apellido_paterno, apellido_materno, correo, contrasena, fecha_nacimiento, estado_cuenta } = req.body;
+
+    try {
+        // verifica si el correo ya está registrado
+        const existingUser = await User.findOne({ where: { correo } });
+        if (existingUser) {
+            return res.status(409).json({ message: 'Correo electrónico ya registrado' });
+        }
+
+        // Crear nuevo usuario
+        const newUser = await User.create({
+            nombre,
+            apellido_paterno,
+            apellido_materno,
+            correo,
+            contrasena,
+            fecha_nacimiento,
+            fecha_registro: new Date(), // Fecha de registro actual
+            estado_cuenta
+        });
+
+        res.status(201).json({ id: newUser.id_usuario, message: 'Usuario creado exitosamente' });
     } catch (error) {
-        // Si hay un error, se captura y envía una respuesta de error.
         console.error('Error al crear el usuario:', error);
         res.status(500).json({ error: 'Error interno del servidor' });
     }

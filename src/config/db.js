@@ -1,16 +1,17 @@
-import mysql from "mysql2/promise"
-import dotenv from 'dotenv'
-dotenv.config('.env')
+// config/db.js
+import { Sequelize } from 'sequelize';
+import dotenv from 'dotenv';
 
-const connection = mysql.createConnection({
+dotenv.config('.env');
+
+const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
     host: process.env.DB_HOST,
-    database: process.env.DB_NAME,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    port: process.env.DB_PORT
+    dialect: 'mysql',
+    logging: false, // Desactivar logs de Sequelize si no los necesitas
 });
 
-const getConnection = async () => await connection;
+const connectToDatabase = async () => {
+    await sequelize.authenticate();
+};
 
-export default getConnection;
-
+export { connectToDatabase, sequelize };

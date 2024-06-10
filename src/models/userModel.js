@@ -1,36 +1,64 @@
-import bcrypt from 'bcrypt'
-import getConnection from "../config/db.js"
+import { DataTypes } from 'sequelize';
+import bcrypt from 'bcrypt';
+import { sequelize } from '../config/db.js';
 
-const getAllUsers = async () => {
-    const connection = await getConnection();
-    const [rows] = await connection.execute('SELECT * FROM '+process.env.DB_NAME+'.Usuario');
-    return rows;
-}
+const User = sequelize.define('User', {
+  id_usuario: {
+    type: DataTypes.INTEGER,
+    autoIncrement: true,
+    primaryKey: true,
+  },
+  nombre: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  apellido_paterno: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  apellido_materno:{
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  correo: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+  },
+  contrasena: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  fecha_nacimiento:{
+    type: DataTypes.DATE,
+    allowNull:false,
+  },
+  fecha_registro:{
+    type: DataTypes.DATE,
+    allowNull:false,
+  },
+  estado_cuenta:{
+    type: DataTypes.STRING,
+    allowNull: false,
+  }
+}, 
+{
+  tableName: 'Usuario',
+  timestamps: false,
+  hooks: {
+    beforeCreate: async (user) => {
+      if (user.contrasena) {
+        const salt = await bcrypt.genSalt(10);
+        user.contrasena = await bcrypt.hash(user.contrasena, salt);
+      }
+    },
+    beforeUpdate: async (user) => {
+      if (user.changed('contrasena')) {
+        const salt = await bcrypt.genSalt(10);
+        user.contrasena = await bcrypt.hash(user.contrasena, salt);
+      }
+    },
+  },
+});
 
-const getUserById = async (id) => {
-    const connection = await getConnection();
-    const [rows] = await connection.execute('SELECT * FROM '+process.env.DB_NAME+'.Usuario WHERE id_usuario = ?', [id]);
-    console.log(id)
-    return rows[0];
-}
-
-const deleteUser = async (id) => {
-    const connection = await getConnection();
-    const [rows] = await connection.query('DELETE FROM '+process.env.DB_NAME+'.Usuario WHERE id_usuario = ?', [id]);
-    return rows.affectedRows;
-}
-
-const updateUser = async (id, userData) => {
-    const connection = await getConnection();
-    const hashContrasena = bcrypt.hashSync(userData.contrasena,10);
-    userData.contrasena = hashContrasena;
-    const [rows] = await connection.query('UPDATE '+process.env.DB_NAME+'.Usuario SET ? WHERE id_usuario = ?', [userData, id]);
-    return rows.affectedRows;
-}
-
-export {
-    getAllUsers,
-    getUserById,
-    deleteUser,
-    updateUser
-};
+export default User;

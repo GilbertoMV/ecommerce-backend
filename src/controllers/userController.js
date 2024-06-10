@@ -1,25 +1,19 @@
-import express from 'express'
-import {getAllUsers, getUserById,deleteUser,updateUser} from '../models/userModel.js'
-import buildUserData from '../data/userData.js'
-import {validateToken} from '../middlewares/validateToken.js'
-const router = express.Router();
+import User from '../models/userModel.js';
 
-//Ruta para obtener lo usuarios
-router.get("/", async (req, res) => {
+export const getAllUsers = async (req, res) => {
   try {
-    const users = await getAllUsers();
+    const users = await User.findAll();
     res.json(users);
   } catch (error) {
     res.status(500).json({ error: "Error interno del servidor" });
     console.error("Error al obtener los usuarios:", error);
   }
-});
+};
 
-// Ruta para obtener los datos del usuario logueado a partir de su token JWT
-router.get("/me", validateToken, async (req, res) => {
-  const userId = req.user.id;
+export const getUserById = async (req, res) => {
+  const id_usuario = req.params.id;
   try {
-    const user = await getUserById(userId);
+    const user = await User.findByPk(id_usuario);
     if (!user) {
       res.status(404).json({ error: "Usuario no encontrado" });
       return;
@@ -29,44 +23,45 @@ router.get("/me", validateToken, async (req, res) => {
     console.error("Error al obtener datos del usuario:", error);
     res.status(500).json({ error: "Error interno del servidor" });
   }
-});
-//Ruta para eliminar un usuario mediante ID
-router.delete("/delete/:id", async (req, res) => {
-  const id = req.params.id; // Obtienes el ID de la solicitud
+};
+
+export const deleteUser = async (req, res) => {
+  const id_usuario = req.params.id;
   try {
-    const deleteRows = await deleteUser(id); // deleteRows es igual a borrar las casillas de deleteUser
-    if (deleteRows > 0) {
-      //Si se llego a detectar que existe el id se borra el usuario y sus valores
+    const result = await User.destroy({ where: { id_usuario } });
+    if (result > 0) {
       res.json({ message: "Usuario eliminado exitosamente" });
     } else {
-      res.status(404).json({ error: "Usuario no encontrado" }); //Si no devuelve que no se encontró el usuario
+      res.status(404).json({ error: "Usuario no encontrado" });
     }
   } catch (error) {
-    console.error("Error al eliminar el usuario:", error); // Error al eliminar el usuario si se llega a presentar
+    console.error("Error al eliminar el usuario:", error);
     res.status(500).json({ error: "Error interno del servidor" });
   }
-});
-//Ruta para actualizar un usuario mediante ID
-router.put("/configurate/:id", async (req, res) => {
-  const id = req.params.id; //Se obtiene el ID del usuario por el URL
-  const userData = buildUserData(req);
+};
+
+export const updateUser = async (req, res) => {
+  const id_usuario = req.params.id;
+  const { correo, ...userData } = req.body;
+
   try {
-    //Hacemos que Update obtenga updateUser y con ello ver si afecto una fila en el Model
-    const Update = await updateUser(id, userData);
-    //Si Update tiene algun cambio en su fila se mandar que el usuario se actualizo
-    if (Update > 0) {
+    // Verificar si el correo ya está registrado por otro usuario
+    if (correo) {
+      const existingUser = await User.findOne({ where: { correo } });
+      if (existingUser && existingUser.id_usuario !== parseInt(id_usuario, 10)) {
+        return res.status(409).json({ message: 'Correo electrónico ya registrado' });
+      }
+    }
+
+    // Actualizar usuario
+    const result = await User.update({ correo, ...userData }, { where: { id_usuario } });
+    if (result[0] > 0) {
       res.json({ message: "Usuario actualizado exitosamente" });
     } else {
-      res.status(404).json({ error: "Usuario no encontrado" }); //En caso contrario se manda un status de que paso
+      res.status(404).json({ error: "Usuario no encontrado" });
     }
   } catch (error) {
     console.error("Error al actualizar el usuario:", error);
     res.status(500).json({ error: "Error interno del servidor" });
   }
-});
-
-
-
-
-
-export default router;
+};
