@@ -40,6 +40,22 @@ export const deleteUser = async (req, res) => {
   }
 };
 
+//obtener los datos del usuario mediante JWT
+export const getUserInfo = async (req, res) =>  {
+  const userId = req.user.id;
+
+  try {
+    const user = await getUserById(userId);
+    if(!user) {
+      return;
+      res.status(404).json({error: "Usuario no encontrado"})
+    }
+    res.json(user);
+  }catch(err){
+    console.error("Error al obtener datos del usuario: " + err)
+    res.status(500).json({error: "Error interno del servidor"})
+  }
+}
 export const updateUser = async (req, res) => {
   const id_usuario = req.params.id;
   const { correo, ...userData } = req.body;
@@ -64,4 +80,5 @@ export const updateUser = async (req, res) => {
     console.error("Error al actualizar el usuario:", error);
     res.status(500).json({ error: "Error interno del servidor" });
   }
+  
 };
