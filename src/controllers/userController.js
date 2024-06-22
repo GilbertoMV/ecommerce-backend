@@ -47,8 +47,8 @@ export const getUserInfo = async (req, res) =>  {
   try {
     const user = await getUserById(userId);
     if(!user) {
-      return;
       res.status(404).json({error: "Usuario no encontrado"})
+      return;
     }
     res.json(user);
   }catch(err){
