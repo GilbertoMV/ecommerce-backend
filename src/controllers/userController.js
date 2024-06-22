@@ -13,7 +13,10 @@ export const getAllUsers = async (req, res) => {
 export const getUserInfo = async (req, res) =>  {
   const userId = req.user.id;
   try {
-    const user = await User.findOne({ where: { id_usuario: userId } });
+    console.log("Searching for user with ID:", userId);
+const user = await User.findOne({ where: { id_usuario: userId } });
+console.log("User found:", user);
+
     if(!user) {
       res.status(404).json({error: "Usuario no encontrado"})
       return;
