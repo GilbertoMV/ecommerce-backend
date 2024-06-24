@@ -31,7 +31,7 @@ const startServer = async () => {
     app.use('/register', registerRoutes);
     app.use('/login', loginRoutes);
     app.use('/products', validateToken, productRoutes);
-    app.use('/users',userRoutes);
+    app.use('/users',validateToken,userRoutes);
     app.use('/categories', categoryRoutes);
 
     // Conexion al puerto definido en la configuración
