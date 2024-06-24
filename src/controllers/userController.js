@@ -28,6 +28,7 @@ export const getUserInfo = async (req, res) =>  {
 
 export const getUserById = async (req, res) => {
   const id_usuario = req.user.id_usuario;
+  res.status(200).json({log: id_usuario + 'tipo ' + typeof(id_usuario)})
   try {
     const user = await User.findByPk(31);
     if (!user) {
