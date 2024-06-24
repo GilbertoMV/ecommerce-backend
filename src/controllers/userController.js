@@ -9,9 +9,26 @@ export const getAllUsers = async (req, res) => {
     console.error("Error al obtener los usuarios:", error);
   }
 };
+//obtener los datos del usuario mediante JWT
+export const getUserInfo = async (req, res) =>  {
+  const userId = req.user.id;
+  res.status(200).json({logsss: userId + 'tipo ' + typeof(userId)})
+  try {
+    const user = await User.findByPk(userId);
+
+    if(!user) {
+      res.status(404).json({error: "Usuario no encontrado"})
+      return;
+    }
+    res.json(user);
+  }catch(err){
+    console.error("Error al obtener datos del usuario: " + err)
+    res.status(500).json({error: "Error interno del servidor"})
+  }
+}
 
 export const getUserById = async (req, res) => {
-  const id_usuario = req.params.id;
+  const id_usuario = req.user.id;
   try {
     const user = await User.findByPk(id_usuario);
     if (!user) {
@@ -64,4 +81,5 @@ export const updateUser = async (req, res) => {
     console.error("Error al actualizar el usuario:", error);
     res.status(500).json({ error: "Error interno del servidor" });
   }
+  
 };
