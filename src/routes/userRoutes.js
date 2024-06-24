@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.get("/", getAllUsers);
 router.get("/:id", getUserById);
-router.get("/me",validateToken, getUserInfo);
+router.get("/me", getUserInfo);
 router.delete("/delete/:id", deleteUser);
 router.put("/configurate/:id", updateUser);
 
