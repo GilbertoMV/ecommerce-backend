@@ -27,7 +27,7 @@ export const getUserInfo = async (req, res) =>  {
 }
 
 export const getUserById = async (req, res) => {
-  const id_usuario = parseInt(req.user.id_usuario);
+  const id_usuario = req.user.id_usuario;
   try {
     const user = await User.findByPk(id_usuario);
     if (!user) {
