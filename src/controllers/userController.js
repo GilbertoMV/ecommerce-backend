@@ -12,8 +12,7 @@ export const getAllUsers = async (req, res) => {
 //obtener los datos del usuario mediante JWT
 export const getUserInfo = async (req, res) =>  {
   const userId = req.user.id;
-  res.status(200).json({log: userId + 'tipo ' + typeof(userId)})
-
+  res.status(200).json({logsss: userId + 'tipo ' + typeof(userId)})
   try {
     const user = await User.findByPk(userId);
 
