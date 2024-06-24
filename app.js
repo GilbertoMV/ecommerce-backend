@@ -31,11 +31,11 @@ const startServer = async () => {
     app.use('/register', registerRoutes);
     app.use('/login', loginRoutes);
     app.use('/products', validateToken, productRoutes);
-    app.use('/users', validateToken,userRoutes);
+    app.use('/users',userRoutes);
     app.use('/categories', categoryRoutes);
 
     // Conexion al puerto definido en la configuración
-    const port = process.env.PORT || 4000;
+    const port = process.env.PORT || 4001;
     app.listen(port, () => {
       console.log("Conexión establecida al puerto " + port);
     });
