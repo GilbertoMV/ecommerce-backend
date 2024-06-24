@@ -30,7 +30,7 @@ export const getUserById = async (req, res) => {
   const id_usuario = req.user.id;
   res.status(200).json({log: id_usuario + 'tipo ' + typeof(id_usuario)})
   try {
-    const user = await User.findByPk(31);
+    const user = await User.findByPk(id_usuario);
     if (!user) {
       res.status(404).json({ error: "Usuario no encontrado" });
       return;
