@@ -14,15 +14,12 @@ const validateToken = (req, res, next) => {
 
     try {
         // Verificando el token usando la clave secreta
-        const decoded = jwt.verify(token, process.env.SECRET_KEY);
-        console.log("Token verificado correctamente, ID del usuario:", decoded.id);
-        
+        const decoded = jwt.verify(token, process.env.SECRET_KEY);        
         // Asumiendo que el ID del usuario está almacenado en el token como 'id'
-        const userId = decoded.id;
+        const userId = decoded.id;          
         if (!userId) {
             return res.status(401).json({ message: 'El token no contiene el ID del usuario requerido.' });
         }
-
         req.user = { id: userId };
         next(); // Pasa al siguiente middleware o controlador
     } catch (error) {

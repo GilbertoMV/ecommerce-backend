@@ -20,11 +20,11 @@ const Product = sequelize.define('Product', {
     allowNull: false,
   },
   caracteristicas: {
-    type: DataTypes.TEXT,
+    type: DataTypes.STRING,
     allowNull: true,
   },
   descripcion: {
-    type: DataTypes.TEXT,
+    type: DataTypes.STRING,
     allowNull: true,
   },
   precio: {
@@ -43,7 +43,6 @@ const Product = sequelize.define('Product', {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  // Agrega otros campos según sea necesario
 }, {
   tableName: 'CatalogoProductos',
   timestamps: false,

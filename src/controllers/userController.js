@@ -9,10 +9,10 @@ export const getAllUsers = async (req, res) => {
     console.error("Error al obtener los usuarios:", error);
   }
 };
+
 //obtener los datos del usuario mediante JWT
 export const getUserInfo = async (req, res) =>  {
   const userId = req.user.id;
-  res.status(200).json({logsss: userId + 'tipo ' + typeof(userId)})
   try {
     const user = await User.findByPk(userId);
 

@@ -74,7 +74,7 @@ export const updateProduct = async (req, res) => {
        existencias,
        huella_carbono,
        puntos_recompensa
-    }, { where: { id_producto } });
+    }, { where: { id_producto }});
     if (updated) {
       res.json({ message: 'Producto actualizado exitosamente' });
     } else {
