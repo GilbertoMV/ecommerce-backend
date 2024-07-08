@@ -1,5 +1,4 @@
 import { DataTypes } from 'sequelize';
-import bcrypt from 'bcrypt';
 import { sequelize } from '../config/db.js';
 
 const Shipment = sequelize.define('Shipment',{

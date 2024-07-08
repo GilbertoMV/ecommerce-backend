@@ -6,6 +6,9 @@ import userRoutes from "./src/routes/userRoutes.js"
 import loginRoutes from  "./src/routes/loginRoutes.js"
 import registerRoutes from './src/routes/registerRoutes.js'
 import categoryRoutes from './src/routes/categoryRoutes.js'
+import shipmentRoutes from './src/routes/shipmentRoutes.js'
+import shopping_cart from './src/routes/shopping_cartRoutes.js'
+import address from './src/routes/addressRoutes.js'
 import {validateToken} from "./src/middlewares/validateToken.js"
 import { connectToDatabase } from './src/config/db.js';
 
@@ -33,9 +36,12 @@ const startServer = async () => {
     app.use('/products', validateToken, productRoutes);
     app.use('/users',validateToken,userRoutes);
     app.use('/categories', categoryRoutes);
+    app.use('/shipment', shipmentRoutes);
+    app.use('/cart', shopping_cart);
+    app.use('/address',address);
 
     // Conexion al puerto definido en la configuración
-    const port = process.env.PORT || 4001;
+    const port = process.env.PORT || 4000;
     app.listen(port, () => {
       console.log("Conexión establecida al puerto " + port);
     });

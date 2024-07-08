@@ -1,8 +1,9 @@
-import Shipment from '../models/enviosModel.js';
+import Shipment from '../models/shipmentModel.js';
 
 export const getAllShipments = async (req,res) => {
 try {
     const shipments = await Shipment.findAll();
+    res.json(shipments)
     } catch (error) {
         console.error('Error al obtener los los envios', error);
         res.status(500).json({ error: 'Error interno del servidor' });
