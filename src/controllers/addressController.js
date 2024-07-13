@@ -10,6 +10,21 @@ export const getAllAddress = async (req,res) =>{
       }
 };
 
+export const getAddressByUser = async (req,res) => {
+  const id_usuario = req.params.id
+  try {
+    const address = await Address.findAll({ where: {id_usuario} });
+        if (!address) {
+          res.status(404).json({ error: 'Direccion no encontrada' });
+          return;
+        }
+        res.json(address);
+  } catch (error) {
+    console.error('Error al obtener la direccion:', error);
+    res.status(500).json({ error: 'Error interno del servidor' });
+  }
+}
+
 export const getAddressById = async (req,res) => {
     const id_direccion = req.params.id;
     try {
