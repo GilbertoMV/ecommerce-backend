@@ -36,11 +36,11 @@ const Address = sequelize.define('Address', {
         allowNull:false,
     },
     num_exterior: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull:false,
     },
     num_interior: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         allowNull:true,
     },
     entre_calle1: {
