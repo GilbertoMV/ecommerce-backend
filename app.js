@@ -1,14 +1,15 @@
 import express from "express";
 import morgan from "morgan";
 import cors from 'cors';
-import productRoutes from "./src/routes/productRoutes.js"
-import userRoutes from "./src/routes/userRoutes.js"
-import loginRoutes from  "./src/routes/loginRoutes.js"
-import registerRoutes from './src/routes/registerRoutes.js'
-import categoryRoutes from './src/routes/categoryRoutes.js'
-import shipmentRoutes from './src/routes/shipmentRoutes.js'
+import product from "./src/routes/productRoutes.js"
+import user from "./src/routes/userRoutes.js"
+import login from  "./src/routes/loginRoutes.js"
+import register from './src/routes/registerRoutes.js'
+import category from './src/routes/categoryRoutes.js'
+import shipment from './src/routes/shipmentRoutes.js'
 import shopping_cart from './src/routes/shopping_cartRoutes.js'
 import address from './src/routes/addressRoutes.js'
+import order from './src/routes/ordersRoutes.js'
 import {validateToken} from "./src/middlewares/validateToken.js"
 import { connectToDatabase } from './src/config/db.js';
 
@@ -31,15 +32,15 @@ const startServer = async () => {
     app.use(express.json());
 
     // Rutas de la aplicación
-    app.use('/register', registerRoutes);
-    app.use('/login', loginRoutes);
-    app.use('/products', validateToken, productRoutes);
-    app.use('/users',validateToken,userRoutes);
-    app.use('/categories', categoryRoutes);
-    app.use('/shipment', shipmentRoutes);
+    app.use('/register', register);
+    app.use('/login', login);
+    app.use('/products', product);
+    app.use('/users',validateToken,user);
+    app.use('/categories', category);
+    app.use('/shipment', shipment);
     app.use('/cart', shopping_cart);
     app.use('/address',address);
-
+    app.use('/order', order);
     // Conexion al puerto definido en la configuración
     const port = process.env.PORT || 4000;
     app.listen(port, () => {

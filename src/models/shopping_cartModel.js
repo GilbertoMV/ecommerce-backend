@@ -20,7 +20,7 @@ const Shopping_cart = sequelize.define('Shopping_cart',{
         allowNull:false
     },
 },{
-    tableName: 'Envios',
+    tableName: 'CarritoCompras',
     timestamps:false,
 });
 
