@@ -2,7 +2,7 @@ import { DataTypes } from 'sequelize';
 import { sequelize } from '../config/db.js';
 
 const Shipment = sequelize.define('Shipment',{
-    id_envio:{
+    id_envios:{
         type: DataTypes.INTEGER,
         autoIncrement:true,
         primaryKey:true,
@@ -11,7 +11,7 @@ const Shipment = sequelize.define('Shipment',{
         type: DataTypes.INTEGER,
         allowNull:false,
     },
-    proveedor:{
+    provedor:{
         type: DataTypes.STRING,
         allowNull:false,
     },
