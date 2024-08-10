@@ -25,6 +25,21 @@ export const getShopping_cartById = async (req,res) =>{
     }
 };
 
+export const getShopping_cartByUser = async (req,res) =>{
+    const id_usuario = req.params.id;
+    try {
+        const shopping_cart = await Shopping_cart.findAll({where : { id_usuario } });
+        if(!shopping_cart){
+            res.status(404).json({error: 'Carritos no encontrados' })
+            return;
+        }
+        res.json(shopping_cart)
+    } catch (error) {
+        console.error('Carrito(s) no encontrado(s)',error)
+        res.status(500).json({ error: 'Error interno del servidor' });
+    }
+};
+
 export const deleteShopping_cart = async (req,res) => {
     const id_carrito = req.params.id;
     try {
