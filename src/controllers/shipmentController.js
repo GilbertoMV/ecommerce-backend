@@ -68,7 +68,7 @@ export const createShipment = async (req,res) => {
         });
         res.status(201).json({ id:newShipment.id_envios, message: 'Envio creado exitosamente' });
     } catch (error) {
-        console.error('Error al crear envio:', error);
+        console.error('Error al crear envio', error);
         res.status(500).json({ error: 'Error interno del servidor' });    
     }
 };
