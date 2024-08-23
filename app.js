@@ -12,6 +12,7 @@ import address from './src/routes/addressRoutes.js'
 import order from './src/routes/ordersRoutes.js'
 import reward from './src/routes/rewardRoutes.js'
 import rate from './src/routes/rateRoutes.js'
+import history from './src/routes/history_orderRoutes.js'
 import {validateToken} from "./src/middlewares/validateToken.js"
 import { connectToDatabase } from './src/config/db.js';
 
@@ -45,6 +46,8 @@ const startServer = async () => {
     app.use('/order', order);
     app.use('/reward', reward);
     app.use('/rate', rate);
+    app.use('/history', history);
+
     // Conexion al puerto definido en la configuración
     const port = process.env.PORT || 4000;
     app.listen(port, () => {

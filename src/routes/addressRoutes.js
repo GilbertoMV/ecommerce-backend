@@ -5,7 +5,8 @@ import {
     getAddressById,
     deleteAddress,
     createAddress,
-    updateAddress} from "../controllers/addressController.js";
+    updateAddress
+} from "../controllers/addressController.js";
 
     const router = express.Router();
 
