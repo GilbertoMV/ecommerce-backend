@@ -1,8 +1,8 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../config/db.js';
 
-const Colors = sequelize.define('Colors',{
-    id_color:{
+const Sizes = sequelize.define('Sizes',{
+    id_talla:{
         type: DataTypes.INTEGER,
         autoIncrement:true,
         primaryKey:true,
@@ -14,8 +14,8 @@ const Colors = sequelize.define('Colors',{
         unique: true,
     },
  },{
-    tableName: 'Colores',
+    tableName: 'Tallas',
     timestamps: false,
  });
 
- export default Colors;
+ export default Sizes;
