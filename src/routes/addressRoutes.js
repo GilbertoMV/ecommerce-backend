@@ -13,8 +13,8 @@ import {
     router.get('/',getAllAddress);
     router.get('/me/:id',getAddressByUser);
     router.get('/:id',getAddressById);
-    router.delete('/delete/:id',deleteAddress);
-    router.post('/create',createAddress);
-    router.put('/configurate/:id',updateAddress);
+    router.delete('/:id',deleteAddress);
+    router.post('/',createAddress);
+    router.put('/:id',updateAddress);
 
     export default router;

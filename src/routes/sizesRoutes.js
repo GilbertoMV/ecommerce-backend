@@ -11,8 +11,8 @@ const router = express.Router();
 
 router.get('/', getAllsizes );
 router.get('/:id', getSizesById);
-router.post('/create', createSizes);
-router.put('/configurate/:id', updateSize );
-router.delete('/delete/:id', deleteSize);
+router.post('/', createSizes);
+router.put('/:id', updateSize );
+router.delete('/:id', deleteSize);
 
 export default router;

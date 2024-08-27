@@ -11,12 +11,12 @@ import {
 
 const router = express.Router();
 
-router.get('/', getAllOrderDetails);
-router.get('/:id', getOrderDetailById)
-router.get('/product/:id',getOrderDetailByProduct);
-router.get('/order/:id', getOrderDetailByOrder);
-router.post('/create', createOrderDetail);
-router.put('/configurate/:id', updateOrderDetail);
-router.delete('/delete/:id', deleteOrderDetail);
+router.get('/details', getAllOrderDetails);
+router.get('/:id/details', getOrderDetailById)
+router.get('/order/:id/details', getOrderDetailByOrder);
+router.get('/product/:id/details',getOrderDetailByProduct);
+router.post('/details', createOrderDetail);
+router.put('/:id/details', updateOrderDetail);
+router.delete('/:id/details', deleteOrderDetail);
 
 export default router;

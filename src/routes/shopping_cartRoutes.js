@@ -13,8 +13,8 @@ const router = express.Router();
 router.get('/',getAllShopping_cart);
 router.get('/:id',getShopping_cartById);
 router.get('/me/:id',getShopping_cartByUser);
-router.post('/create',createShopping_cart);
-router.delete('/delete/:id',deleteShopping_cart);
-router.put('/configurate/:id',updateShopping_cart);
+router.post('/',createShopping_cart);
+router.put('/:id',updateShopping_cart);
+router.delete('/:id',deleteShopping_cart);
 
 export default router

@@ -11,8 +11,8 @@ const router = express.Router();
 
 router.get('/', getAllColors);
 router.get('/:id', getColorById);
-router.post('/create', createColor);
-router.put('/configurate/:id', updateColor);
-router.delete('/delete/:id', deleteColor);
+router.post('/', createColor);
+router.put('/:id', updateColor);
+router.delete('/:id', deleteColor);
 
 export default router;

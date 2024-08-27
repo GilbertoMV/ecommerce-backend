@@ -15,8 +15,8 @@ router.get('/', getAllHistoryOrders);
 router.get('/:id',getHistoryOrderById)
 router.get('/me/:id', getHistoryOrderByUser);
 router.get('/order/:id',getHistoryOrderByProduct);
-router.delete('/delete/:id', deleteHistoryOrder);
-router.post('/create',createHistoryOrder);
-router.put('/configurate/:id',updateHistoryOrder);
+router.delete('/:id', deleteHistoryOrder);
+router.post('/',createHistoryOrder);
+router.put('/:id',updateHistoryOrder);
 
 export default router;

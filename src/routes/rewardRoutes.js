@@ -15,8 +15,8 @@ router.get('/', getAllRewards);
 router.get('/:id', getRewardById);
 router.get('/me/:id', getRewardByUser);
 router.get('/order/:id', getRewardByOrder);
-router.post('/create', createReward);
-router.put('/configurate/:id', updateReward);
-router.delete('/delete/:id', deleteReward);
+router.post('/', createReward);
+router.put('/:id', updateReward);
+router.delete('/:id', deleteReward);
 
 export default router;
