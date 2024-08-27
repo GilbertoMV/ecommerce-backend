@@ -15,6 +15,7 @@ import rate from './src/routes/rateRoutes.js'
 import history from './src/routes/history_orderRoutes.js'
 import color from './src/routes/colorsRoutes.js'
 import size from './src/routes/sizesRoutes.js'
+import orderDetail from './src/routes/order_detailRoutes.js' 
 import {validateToken} from "./src/middlewares/validateToken.js"
 import { connectToDatabase } from './src/config/db.js';
 
@@ -42,15 +43,16 @@ const startServer = async () => {
     app.use('/products', product);
     app.use('/users',validateToken,user);
     app.use('/categories', category);
-    app.use('/shipment', shipment);
-    app.use('/cart', shopping_cart);
+    app.use('/shipments', shipment);
+    app.use('/carts', shopping_cart);
     app.use('/address',address);
-    app.use('/order', order);
-    app.use('/reward', reward);
-    app.use('/rate', rate);
-    app.use('/history', history);
+    app.use('/orders', order);
+    app.use('/rewards', reward);
+    app.use('/rates', rate);
+    app.use('/histories', history);
     app.use('/colors', color);
     app.use('/sizes', size);
+    app.use('/details/orders', orderDetail);
 
     // Conexion al puerto definido en la configuración
     const port = process.env.PORT || 4000;
