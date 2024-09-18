@@ -17,6 +17,7 @@ import color from './src/routes/colorsRoutes.js'
 import size from './src/routes/sizesRoutes.js'
 import order_detail from './src/routes/order_detailRoutes.js' 
 import shopping_cart_detail from './src/routes/shopping_cart_detailsRoutes.js'
+import mp from './src/routes/payment.routes.js'
 import {validateToken} from "./src/middlewares/validateToken.js"
 import { connectToDatabase } from './src/config/db.js';
 
@@ -57,6 +58,8 @@ const startServer = async () => {
     app.use('/histories', history);
     app.use('/colors', color);
     app.use('/sizes', size);
+    //Ruta para hacer el pago
+    app.use('/pago',mp);
 
     // Conexion al puerto definido en la configuración
     const port = process.env.PORT || 4000;
