@@ -25,17 +25,32 @@ export const getProductById = async (req, res) => {
   }
 };
 
-export const deleteProduct = async (req, res) => {
-  const id_producto = req.params.id;
+export const getProductByCategory = async (req, res) => {
+  const id_categoria = req.params.id;
   try {
-    const result = await Product.destroy({ where: { id_producto } });
-    if (result > 0) {
-      res.json({ message: 'Producto eliminado exitosamente' });
-    } else {
-      res.status(404).json({ error: 'Producto no encontrado' });
+    const product = await Product.findAll({ where : { id_categoria} } );
+    if(!product){
+      res.status(404).json({ error: 'Producto(s) no encontrados' });
+      return;
     }
+    res.json(product);
   } catch (error) {
-    console.error('Error al eliminar el producto:', error);
+    console.error('Error al obtener producto(s) por categoría:', error);
+    res.status(500).json({ error: 'Error interno del servidor' });
+  }
+};
+
+export const getProductByUser = async (req, res) => {
+  const id_usuario = req.params.id;
+  try {
+    const product = await Product.findAll({ where : { id_usuario } });
+    if(!product){
+      res.status(404).json({ error: 'Producto(s) no encontrados' });
+      return;
+    }
+    res.json(product)
+  } catch (error) {
+    console.error('Error al obtener producto(s) por usuario', error);
     res.status(500).json({ error: 'Error interno del servidor' });
   }
 };
@@ -67,7 +82,7 @@ export const updateProduct = async (req, res) => {
   try {
     const [updated] = await Product.update({
       id_categoria,
-       id_usuario,
+      id_usuario,
        nombre,caracteristicas,
        descripcion,
        precio,
@@ -85,3 +100,18 @@ export const updateProduct = async (req, res) => {
     res.status(500).json({ error: 'Error interno del servidor' });
   }
 };
+
+export const deleteProduct = async (req, res) => {
+  const id_producto = req.params.id;
+    try {
+        const result = await Product.destroy({ where: { id_producto } });
+        if (result > 0) {
+          res.json({ message: 'Producto eliminado exitosamente' });
+        } else {
+          res.status(404).json({ error: 'Producto no encontrado' });
+        }
+      } catch (error) {
+        console.error('Error al eliminar el producto:', error);
+        res.status(500).json({ error: 'Error interno del servidor' });
+      }
+    };
