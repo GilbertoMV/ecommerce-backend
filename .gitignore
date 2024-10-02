@@ -1,2 +1,5 @@
-node_modules
+//Eliminar el .environment
 .env
+
+//Eliminar el node_modules
+node_modules
