@@ -59,33 +59,27 @@ export const createProductSize = async (req,res) => {
     }
 }
 
-export const updateProductSize = async (req, res) => {
-    const { id_producto, id_talla } = req.params;
-
+/* TODO: El metodo update queda fuera por inconsistencia e inservibilidad
+export const updateProductSize = async (req,res) => {
+    const {id_producto, id_talla} = req.params;
     try {
-        const [updated] = await Product_size.update(
-            {
-                id_talla: id_talla,     // Actualizando con el mismo valor de id_talla
-                id_producto: id_producto // Actualizando con el mismo valor de id_producto
-            },
-            {
-                where: { 
-                    id_talla: id_talla,     // Condición para encontrar el registro basado en id_talla
-                    id_producto: id_producto // Condición para encontrar el registro basado en id_producto
-                }
-            }
-        );
-
-        if (updated) {
-            res.status(200).json({ message: 'Talla producto actualizada exitosamente' });
+        const [updated] = await Product_size.update({
+            id_talla: id_talla,     // Actualizar con el mismo id_talla
+            id_producto: id_producto // Actualizar con el mismo id_producto
+        }, { where: { 
+            id_talla: id_talla,     // Actualizar con el mismo id_talla
+            id_producto: id_producto // Actualizar con el mismo id_producto
+             } });
+        if(updated){
+            res.status(200).json({ message: 'Talla producto actualizado exitosamente' });
         } else {
-            res.status(404).json({ error: 'No se encontró el producto en estas tallas' });
+            res.status(404).json({ error: 'No se encontro el producto en estas tallas' });
         }
-    } catch (error) {
-        console.error('Error al actualizar talla producto:', error);
+    } catch(error){
+        console.error('Error al actualizar talla producto',error);
         res.status(500).json({ error: 'Error interno del servidor' });
     }
-};
+}*/
 export const deleteProductSize = async (req,res) => {
     const {id_talla, id_producto} = req.params;
     try {
