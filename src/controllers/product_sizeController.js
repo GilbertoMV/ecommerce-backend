@@ -10,6 +10,7 @@ export const getAllProductSize = async (req,res) => {
     }
 };
 
+/* No es necesaria 
 export const getProductSizeBySize = async (req,res) => {
     const id_talla = req.params.id;
     try {
@@ -23,7 +24,7 @@ export const getProductSizeBySize = async (req,res) => {
         console.error('Error al obtener la talla del producto', error);
         res.status(500).json({ error: 'Error interno del servidor' });
     }
-};
+}; */
 
 export const getProductSizeByProduct = async (req,res) => {
     const id_producto = req.params.id;

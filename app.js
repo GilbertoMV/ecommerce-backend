@@ -19,6 +19,7 @@ import order_detail from './src/routes/order_detailRoutes.js'
 import shopping_cart_detail from './src/routes/shopping_cart_detailsRoutes.js'
 import image from './src/routes/imagesRoutes.js'
 import product_size from './src/routes/product_sizeRoutes.js'
+import product_color from './src/routes/product_colorRoutes.js'
 import mp from './src/routes/payment.routes.js'
 import {validateToken} from "./src/middlewares/validateToken.js"
 import { connectToDatabase } from './src/config/db.js';
@@ -58,6 +59,8 @@ const startServer = async () => {
     app.use('/rewards', reward);
     app.use('/rates', rate);
     app.use('/histories', history);
+    //TODO: para usar dos iguales se necesita estar la mas detallada al inicio
+    app.use('/colors',product_color);
     app.use('/colors', color);
     app.use('/sizes', product_size);
     app.use('/sizes', size);
