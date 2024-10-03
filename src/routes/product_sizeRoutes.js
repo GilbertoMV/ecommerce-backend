@@ -1,11 +1,11 @@
 import express from 'express';
 import {
     getAllProductSize,
-    //getProductSizeBySize,
     getProductSizeByProduct,
     createProductSize,
-    updateProductSize,
     deleteProductSize
+    /*updateProductSize,
+    getProductSizeBySize,*/
 } from '../controllers/product_sizeController.js';
 
 const router = express.Router();
