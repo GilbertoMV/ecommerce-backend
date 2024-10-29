@@ -14,11 +14,11 @@ const User = sequelize.define('User', {
   },
   apellido_paterno: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   apellido_materno:{
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   correo: {
     type: DataTypes.STRING,
@@ -40,6 +40,14 @@ const User = sequelize.define('User', {
   estado_cuenta:{
     type: DataTypes.STRING,
     allowNull: false,
+  },
+  id_facebook:{
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  id_google:{
+    type: DataTypes.STRING,
+    allowNull: true,
   }
 }, 
 {

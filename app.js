@@ -1,6 +1,11 @@
 import express from "express";
+import session from "express-session";
 import morgan from "morgan";
 import cors from 'cors';
+import dotenv from 'dotenv';
+import passport from 'passport';
+import './src/controllers/facebook_authController.js';
+
 import product from "./src/routes/productRoutes.js"
 import user from "./src/routes/userRoutes.js"
 import login from  "./src/routes/loginRoutes.js"
@@ -21,27 +26,38 @@ import image from './src/routes/imagesRoutes.js'
 import product_size from './src/routes/product_sizeRoutes.js'
 import product_color from './src/routes/product_colorRoutes.js'
 import mp from './src/routes/payment.routes.js'
+import facebook from './src/routes/facebook_auth.routes.js'
 import {validateToken} from "./src/middlewares/validateToken.js"
 import { connectToDatabase } from './src/config/db.js';
 
 const app = express();
-
-// Habilitar CORS
-app.use(cors({
-  origin: '*', // Considerar configurar dominios específicos en producción
-  optionsSuccessStatus: 200
-}));
+dotenv.config();
 
 // Conectar a la base de datos
 const startServer = async () => {
   try {
     await connectToDatabase();
     console.log("Conexión a la base de datos establecida exitosamente.");
-
-    // El middleware para ver los estatus
+    
+    // El middleware
     app.use(morgan("dev"));
     app.use(express.json());
-
+    app.use(session({
+      secret: process.env.SESSION_KEY, // Cambia esto a una clave secreta
+      resave: true,
+      saveUninitialized: true,
+    }));
+    
+    // Inicializa Passport y usa la sesión
+    app.use(passport.initialize());
+    app.use(passport.session()); 
+    
+    // Habilitar CORS
+    app.use(cors({
+      origin: '*', // Considerar configurar dominios específicos en producción
+      optionsSuccessStatus: 200
+    }));
+    
     // Rutas de la aplicación
     app.use('/register', register);
     app.use('/login', login);
@@ -67,6 +83,8 @@ const startServer = async () => {
     app.use('/images', image);
     //Ruta para hacer el pago
     app.use('/pago',mp);
+    //Ruta para hacer oauth
+    app.use('/facebook', facebook);
 
     // Conexion al puerto definido en la configuración
     const port = process.env.PORT || 4000;
