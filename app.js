@@ -4,6 +4,8 @@ import morgan from "morgan";
 import cors from 'cors';
 import dotenv from 'dotenv';
 import passport from 'passport';
+import connectRedis from 'connect-redis';
+import { createClient } from "redis";
 import './src/controllers/facebook_authController.js';
 
 import product from "./src/routes/productRoutes.js"
@@ -42,10 +44,16 @@ const startServer = async () => {
     // El middleware
     app.use(morgan("dev"));
     app.use(express.json());
+
+    const redisClient = createClient();
+    redisClient.on('error', (err) => console.error('Redis Client Error', err));
+    await redisClient.connect(); 
+
     app.use(session({
+      store: connectRedis({ client: redisClient }),
       secret: process.env.SESSION_KEY, // Cambia esto a una clave secreta
-      resave: true,
-      saveUninitialized: true,
+      resave: false,
+      saveUninitialized: false,
     }));
     
     // Inicializa Passport y usa la sesión
