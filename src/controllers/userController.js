@@ -15,7 +15,7 @@ export const getUserInfo = async (req, res) =>  {
   const userId = req.user.id;
   try {
     const user = await User.findByPk(userId);
-
+    console.log("Buscando usuario con ID:", userId); // Log para verificar el ID
     if(!user) {
       res.status(404).json({error: "Usuario no encontrado"})
       return;
