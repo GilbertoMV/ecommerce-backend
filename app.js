@@ -26,6 +26,7 @@ import image from './src/routes/imagesRoutes.js'
 import product_size from './src/routes/product_sizeRoutes.js'
 import product_color from './src/routes/product_colorRoutes.js'
 import mp from './src/routes/payment.routes.js'
+import password from './src/routes/recoveryRoutes.js'
 import facebook from './src/routes/facebook_auth.routes.js'
 import {validateToken} from "./src/middlewares/validateToken.js"
 import { connectToDatabase } from './src/config/db.js';
@@ -85,6 +86,8 @@ const startServer = async () => {
     app.use('/pago',mp);
     //Ruta para hacer oauth
     app.use('/facebook', facebook);
+    //Olvido de contraseña
+    app.use('/password',password);
 
     // Conexion al puerto definido en la configuración
     const port = process.env.PORT || 4000;

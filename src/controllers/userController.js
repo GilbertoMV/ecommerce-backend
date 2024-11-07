@@ -15,7 +15,7 @@ export const getUserInfo = async (req, res) =>  {
   const userId = req.user.id;
   try {
     const user = await User.findByPk(userId);
-
+    console.log(user.id);
     if(!user) {
       res.status(404).json({error: "Usuario no encontrado"})
       return;
