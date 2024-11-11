@@ -25,6 +25,7 @@ import shopping_cart_detail from './src/routes/shopping_cart_detailsRoutes.js'
 import image from './src/routes/imagesRoutes.js'
 import product_size from './src/routes/product_sizeRoutes.js'
 import product_color from './src/routes/product_colorRoutes.js'
+import search from './src/routes/searchRoutes.js'
 import mp from './src/routes/payment.routes.js'
 import password from './src/routes/recoveryRoutes.js'
 import facebook from './src/routes/facebook_auth.routes.js'
@@ -82,6 +83,7 @@ const startServer = async () => {
     app.use('/sizes', product_size);
     app.use('/sizes', size);
     app.use('/images', image);
+    app.use('/searches',search);
     //Ruta para hacer el pago
     app.use('/pago',mp);
     //Ruta para hacer oauth

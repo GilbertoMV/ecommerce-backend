@@ -10,7 +10,7 @@ export const getAllProductSize = async (req,res) => {
     }
 };
 
-/* No es necesaria 
+/*TODO: Por ahora fuera de servicio 
 export const getProductSizeBySize = async (req,res) => {
     const id_talla = req.params.id;
     try {
@@ -95,4 +95,3 @@ export const deleteProductSize = async (req,res) => {
         res.status(500).json({ error: 'Error interno del servidor' });
     }
 }
- //TODO: Por ahora fuera de servicio hasta al rato
