@@ -3,7 +3,22 @@ import axios from 'axios';
 export const getCarbonFootprint = async (req, res) => {
   try {
     const userMessage = req.body.message;
-    const threadId = process.env.THREAD_ID; // Asegúrate de tener un threadId válido
+
+      // Crear un hilo primero si no tienes un threadId
+      const threadResponse = await axios.post(
+        'https://api.openai.com/v1/threads',
+        {},
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+            'OpenAI-Beta': 'assistants=v2',
+          },
+        }
+      );
+  
+      const threadId = threadResponse.data.id;  // Obtener el threadId creado
+  
 
     if (!threadId) {
       return res.status(400).send("El ID del hilo (threadId) es requerido.");
