@@ -4,7 +4,8 @@ import {
     getCarbonFootprint
 } from '../controllers/carbon_footprintController.js'
 
-const router = express.Router()
+const router = express.Router();
+
 
 router.post('/', getCarbonFootprint)
 

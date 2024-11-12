@@ -1,3 +1,5 @@
+import axios from 'axios'; // Agrega esta línea
+
 export const getCarbonFootprint = async (req, res) => {
     try {
         const userMessage = req.body.message;
