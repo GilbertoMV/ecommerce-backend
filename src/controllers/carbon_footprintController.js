@@ -8,6 +8,7 @@ export const getCarbonFootprint = async (req, res) => {
     const response = await axios.post(
       `https://api.openai.com/v1/threads/${threadId}/messages`,
       {
+        role: 'user',
         content: userMessage,
       },
       {
