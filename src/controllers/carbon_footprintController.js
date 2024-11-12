@@ -21,7 +21,7 @@ export const getCarbonFootprint = async (req, res) => {
     );
 
     // Extraemos el mensaje de respuesta del asistente
-    const assistantResponse = response.data.content;
+    const assistantResponse = response.data.choices[0].message.content;
     
     return res.status(200).json({ respuesta: assistantResponse });
   } catch (error) {
