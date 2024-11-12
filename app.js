@@ -31,7 +31,7 @@ import password from './src/routes/recoveryRoutes.js'
 import facebook from './src/routes/facebook_auth.routes.js'
 import {validateToken} from "./src/middlewares/validateToken.js"
 import { connectToDatabase } from './src/config/db.js';
-import carbonfootprint from './src/routes/carbon_footprintRoute.js'
+import postProductData from './src/routes/carbon_footprintRoute.js'
 
 const app = express();
 dotenv.config();
@@ -92,7 +92,7 @@ const startServer = async () => {
     //Olvido de contraseña
     app.use('/password',password);
     //obtener huella de carbono
-    app.use('/carbonfootprint',carbonfootprint)
+    app.use('/carbonfootprint',postProductData)
 
     // Conexion al puerto definido en la configuración
     const port = process.env.PORT || 4000;
