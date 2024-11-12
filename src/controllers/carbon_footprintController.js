@@ -20,8 +20,10 @@ export const getCarbonFootprint = async (req, res) => {
       }
     );
 
-    const assistantResponse = response;
-    return res.status(200).send(assistantResponse);
+    // Extraemos el mensaje de respuesta del asistente
+    const assistantResponse = response.data.content;
+    
+    return res.status(200).json({ respuesta: assistantResponse });
   } catch (error) {
     console.error("Error:", error.response ? error.response.data : error.message);
     res.status(500).send("Hubo un error en la respuesta del asistente.");
