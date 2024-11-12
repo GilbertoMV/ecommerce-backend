@@ -3,8 +3,8 @@ import axios from 'axios'; // Agrega esta línea
 export const getCarbonFootprint = async (req, res) => {
   try {
     const userMessage = req.body.message;
-        const response = await axios.post(
-      "https://api.openai.com/v1/chat/completions",
+
+    const response = await axios.post("https://api.openai.com/v1/chat/completions",
       {
         model: "gpt-4-turbo", // Usar gpt-4
         messages: [
@@ -58,7 +58,7 @@ export const getCarbonFootprint = async (req, res) => {
     );
 
     const assistantResponse = response.data.choices[0].message.content; // Obtener la respuesta del asistente
-    return assistantResponse;
+    res.json({ message: assistantResponse });
   } catch (error) {
     console.error("Error:", error.response ? error.response.data : error.message);
     throw error;
