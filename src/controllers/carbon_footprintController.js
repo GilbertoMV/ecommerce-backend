@@ -51,11 +51,11 @@ export const postProductData = async (req, res) => {
 };
 
 export const getCarbonFootprint = async (req, res) => {
-  try {
-    const runId = req.params.runId;
-    const threadId = process.env.THREAD_ID;
+  const runId = req.params.id;
+  const threadId = process.env.THREAD_ID;
 
-    // 3. Obtener la respuesta del asistente asociada al run
+  try {
+    // Consulta los mensajes del hilo específico
     const response = await axios.get(
       `https://api.openai.com/v1/threads/${threadId}/messages`,
       {
@@ -67,18 +67,21 @@ export const getCarbonFootprint = async (req, res) => {
       }
     );
 
-    // Filtrar y obtener el mensaje del asistente asociado con el runId
-    const assistantResponse = response.data.data.find(
+    // Revisa si hay mensajes con el mismo `runId`
+    const assistantMessage = response.data.data.find(
       (message) => message.role === 'assistant' && message.run_id === runId
     );
 
-    if (assistantResponse) {
-      return res.status(200).json({ respuesta: assistantResponse.content.map(content => content.text.value).join(' ') });
+    if (assistantMessage && assistantMessage.content) {
+      // Si el mensaje existe, devuelve su contenido
+      return res.status(200).json({ respuesta: assistantMessage.content.map(c => c.text.value).join('\n') });
     } else {
-      return res.status(404).send("No se encontró la respuesta del asistente para este run.");
+      // Mensaje no encontrado en la respuesta de OpenAI
+      res.status(404).send("No se encontró una respuesta para ese run.");
     }
   } catch (error) {
-    console.error("Error al obtener la respuesta del asistente:", error.response ? error.response.data : error.message);
+    console.error("Error al obtener la respuesta del mensaje:", error.response ? error.response.data : error.message);
     res.status(500).send("Hubo un error al obtener la respuesta del asistente.");
   }
 };
+
