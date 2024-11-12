@@ -1,4 +1,4 @@
-export const getCarbonFootprint = async (req, req) => {
+export const getCarbonFootprint = async (res, req) => {
     try {
         const userMessage = req.body.message;
     
