@@ -31,7 +31,7 @@ import password from './src/routes/recoveryRoutes.js'
 import facebook from './src/routes/facebook_auth.routes.js'
 import {validateToken} from "./src/middlewares/validateToken.js"
 import { connectToDatabase } from './src/config/db.js';
-import carbonfootprint from './src/routes/carbon_footprintRouter.js'
+import carbonfootprint from './src/routes/carbon_footprintRoute.js'
 
 const app = express();
 dotenv.config();
