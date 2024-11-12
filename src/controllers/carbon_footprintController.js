@@ -31,7 +31,7 @@ export const postProductData = async (req, res) => {
 
 export const getCarbonFootprint = async (req, res) => {
   try {
-    const messageId = req.query.messageId;
+    const messageId = req.params.id;
     const threadId = process.env.THREAD_ID;
 
     const response = await axios.get(
