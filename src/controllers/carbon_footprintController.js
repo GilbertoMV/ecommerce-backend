@@ -20,7 +20,7 @@ export const getCarbonFootprint = async (req, res) => {
       }
     );
 
-    const assistantResponse = response.data.choices[0].message.content;
+    const assistantResponse = response.data;
     return res.status(200).send(assistantResponse);
   } catch (error) {
     console.error("Error:", error.response ? error.response.data : error.message);
