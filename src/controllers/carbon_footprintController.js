@@ -12,16 +12,9 @@ export const getCarbonFootprint = async (req, res) => {
     const response = await axios.post(
       `https://api.openai.com/v1/threads/${threadId}/messages`,
       {
-        // Enviar el mensaje con la estructura que espera la API
+        // Ahora solo pasamos el texto como un string directamente
         role: 'user',
-        content: [
-          {
-            type: 'text',
-            text: {
-              value: userMessage, // Mensaje que el usuario envía
-            },
-          },
-        ],
+        content: userMessage,  // Se pasa directamente el mensaje como un string
       },
       {
         headers: {
