@@ -9,6 +9,6 @@ const router = express.Router();
 
 
 router.post('/', postProductData)
-router.get('/getCarbonFootprint', getCarbonFootprint)
+router.get('/getCarbonFootprint/:id', getCarbonFootprint)
 
 export default router;
