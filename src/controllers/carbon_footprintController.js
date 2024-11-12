@@ -8,7 +8,7 @@ export const postProductData = async (req, res) => {
     const response = await axios.post(
       `https://api.openai.com/v1/threads/${threadId}/messages`,
       {
-        role: 'user',
+        role: 'system',
         content: userMessage,
       },
       {
@@ -21,7 +21,7 @@ export const postProductData = async (req, res) => {
     );
 
     // Devuelve el ID del mensaje
-    const messageId = response.data.id;  // Esto depende de la estructura real de la respuesta
+    const messageId = response.data;  // Esto depende de la estructura real de la respuesta
     return res.status(200).json({ messageId });
   } catch (error) {
     console.error("Error en el envío de mensaje a GPT:", error.response ? error.response.data : error.message);
