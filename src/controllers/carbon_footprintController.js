@@ -1,7 +1,5 @@
 import axios from 'axios';
 
-import axios from 'axios';
-
 export const postProductData = async (req, res) => {
   try {
     const userMessage = req.body.message;
