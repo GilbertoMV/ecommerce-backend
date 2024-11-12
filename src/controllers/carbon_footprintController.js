@@ -8,7 +8,7 @@ export const getCarbonFootprint = async (req, res) => {
         const response = await axios.post(
           "https://api.openai.com/v1/chat/completions",
           {
-            model: "gpt-4o",  // Cambia esto al ID de tu asistente configurado
+            model: "asst_XKJTXDLYqe3cJFgCAs7bRWtt",  // Cambia esto al ID de tu asistente configurado
             messages: [{ role: "user", content: userMessage }]
           },
           {
