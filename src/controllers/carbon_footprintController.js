@@ -29,7 +29,7 @@ export const postProductData = async (req, res) => {
   }
 };
 
-export const getMessageResponse = async (req, res) => {
+export const getCarbonFootprint = async (req, res) => {
   try {
     const messageId = req.query.messageId;
     const threadId = process.env.THREAD_ID;
