@@ -6,7 +6,7 @@ export const getCarbonFootprint = async (req, res) => {
         const response = await axios.post(
       "https://api.openai.com/v1/chat/completions",
       {
-        model: "gpt-4", // Usar gpt-4
+        model: "gpt-4-turbo", // Usar gpt-4
         messages: [
           { role: "system", 
             content: `Eres un asistente especializado en el cálculo de huella de carbono de productos usando la metodología PAS 2050. Calcula la huella de carbono en kg CO₂e con base en los datos de ecoinvent. Sigue los siguientes principios y supuestos:
