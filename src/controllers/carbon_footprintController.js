@@ -8,7 +8,7 @@ export const postProductData = async (req, res) => {
     const response = await axios.post(
       `https://api.openai.com/v1/threads/${threadId}/messages`,
       {
-        role: 'system',
+        role: 'assistant',
         content: userMessage,
       },
       {
