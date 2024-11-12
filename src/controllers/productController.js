@@ -114,4 +114,4 @@ export const deleteProduct = async (req, res) => {
         console.error('Error al eliminar el producto:', error);
         res.status(500).json({ error: 'Error interno del servidor' });
       }
-    };
+};
