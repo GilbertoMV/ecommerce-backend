@@ -7,7 +7,7 @@ import User from '../models/userModel.js'
 passport.use(new FacebookStrategy({
   clientID: process.env.FACEBOOK_ID,  // Reemplaza con el Facebook App ID
   clientSecret: process.env.FACEBOOK_SECRET,  // Reemplaza con el Facebook App Secret
-  callbackURL: "http://localhost:4000/facebook",  // URL de retorno de Facebook
+  callbackURL: process.env.FACEBOOK_CALLBACK,  // URL de retorno de Facebook
   profileFields: ['emails','name']
 },async (accessToken, refreshToken, profile, callback) => {
   try {
@@ -24,7 +24,6 @@ passport.use(new FacebookStrategy({
         id: userFacebookId.id_usuario,
         estado_cuenta: userFacebookId.estado_cuenta
       }, process.env.SECRET_KEY, { expiresIn: '30d' });
-      console.log("token: "+token);
       return callback(null, { token });
     }
 
@@ -39,7 +38,6 @@ passport.use(new FacebookStrategy({
         id: userEmail.id_usuario,
         estado_cuenta: userEmail.estado_cuenta
       }, process.env.SECRET_KEY, { expiresIn: '30d' });
-      console.log("token: "+token);
       return callback(null, { token });
     }
 
