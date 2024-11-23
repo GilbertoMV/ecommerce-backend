@@ -2,8 +2,33 @@ import Product from '../models/productModel.js';
 
 export const getAllProducts = async (req, res) => {
   try {
-    const products = await Product.findAll();
-    res.json(products);
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const offset = (page - 1) * limit;
+
+    // Obtén los parámetros 'sortBy' y 'order' de la solicitud
+    let sort = req.query.sort;
+    const order = req.query.order === 'ASC' ? 'ASC' : 'DESC'; // Orden por defecto a 'DESC'
+
+    // Validar que 'sortBy' sea 'huella_carbono' o 'nombre'
+    const validSortFields = ['huella_carbono', 'nombre','precio'];
+    if (!validSortFields.includes(sort)) {
+      sort = 'huella_carbono'; // Campo por defecto si no es válido
+    }
+
+    // Consulta con paginación y orden dinámico
+    const { count, rows } = await Product.findAndCountAll({
+      limit: limit,
+      offset: offset,
+      order: [[sort, order]] // Orden dinámico basado en los parámetros validados
+    });
+
+    res.status(200).json({
+      totalPages: Math.ceil(count / limit),
+      currentPage: page,
+      totalProducts: count,
+      products: rows
+    });
   } catch (error) {
     console.error('Error al obtener los productos del catálogo:', error);
     res.status(500).json({ error: 'Error interno del servidor' });
