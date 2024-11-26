@@ -2,13 +2,39 @@ import Colors from '../models/colorsModel.js';
 
 export const getAllColors = async (req, res) => {
     try {
-        const colors = await Colors.findAll();
-        res.json(colors);
+      const page = parseInt(req.query.page) || 1; 
+      const limit = parseInt(req.query.limit) || 10; 
+      const offset = (page - 1) * limit; // Cálculo del desplazamiento para la paginación
+  
+      // Parámetros de ordenación
+      let sort = req.query.sort || 'id_color'; // Campo de ordenación por defecto
+      const order = req.query.order || 'ASC'; 
+  
+      // Validación de campos válidos para ordenación
+      const validSortFields = ['id_color', 'nombre']; 
+      if (!validSortFields.includes(sort)) {
+        sort = 'id_color'; 
+      }
+  
+      // Consulta con paginación y ordenación
+      const { count, rows } = await Colors.findAndCountAll({
+        limit: limit,
+        offset: offset,
+        order: [[sort, order]] // Orden dinámico basado en los parámetros
+      });
+  
+      res.status(200).json({
+        totalPages: Math.ceil(count / limit),
+        currentPage: page,
+        totalColors: count,
+        colors: rows
+      });
     } catch (error) {
-        console.error('Error al obtener los colores',error);
-        res.status(500).json({ error: 'Error interno del servidor' });
+      console.error('Error al obtener los colores:', error);
+      res.status(500).json({ error: 'Error interno del servidor' });
     }
-};
+  };
+  
 
 export const getColorById = async (req, res) => {
     const id_color = req.params.id;

@@ -2,13 +2,39 @@ import Reward from "../models/rewardModel.js"
 
 export const getAllRewards = async (req, res) => {
     try {
-        const rewards = await Reward.findAll();
-        res.json(rewards);
+      const page = parseInt(req.query.page) || 1; 
+      const limit = parseInt(req.query.limit) || 10; 
+      const offset = (page - 1) * limit; // Cálculo del desplazamiento para la paginación
+  
+      // Parámetros de ordenación
+      let sort = req.query.sort || 'id_recompensa_recibida'; // Campo de ordenación por defecto
+      const order = req.query.order || 'ASC'; 
+  
+      // Validación de campos válidos para ordenación
+      const validSortFields = ['id_recompensa_recibida', 'id_usuario','puntos_recibidos']; 
+      if (!validSortFields.includes(sort)) {
+        sort = 'id_recompensa_recibida'; 
+      }
+  
+      // Consulta con paginación y ordenación
+      const { count, rows } = await Reward.findAndCountAll({
+        limit: limit,
+        offset: offset,
+        order: [[sort, order]] // Orden dinámico basado en los parámetros
+      });
+  
+      res.status(200).json({
+        totalPages: Math.ceil(count / limit),
+        currentPage: page,
+        totalRewards: count,
+        rewards: rows
+      });
     } catch (error) {
-        console.error("Error al obtener recompensa(s)", error);
-        res.status(500).json({ error: "Error interno del servidor" });
+      console.error('Error al obtener las categorias:', error);
+      res.status(500).json({ error: 'Error interno del servidor' });
     }
-};
+  };
+  
 
 export const getRewardById = async (req, res) => {
     const id_recompensa_recibida = req.params.id;

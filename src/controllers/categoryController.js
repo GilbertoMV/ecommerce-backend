@@ -2,10 +2,35 @@ import Category from '../models/categoryModel.js';
 
 export const getAllCategories = async (req, res) => {
   try {
-    const categories = await Category.findAll();
-    res.json(categories);
+    const page = parseInt(req.query.page) || 1; 
+    const limit = parseInt(req.query.limit) || 10; 
+    const offset = (page - 1) * limit; // Cálculo del desplazamiento para la paginación
+
+    // Parámetros de ordenación
+    let sort = req.query.sort || 'id_categoria'; // Campo de ordenación por defecto
+    const order = req.query.order || 'ASC'; 
+
+    // Validación de campos válidos para ordenación
+    const validSortFields = ['id_categoria', 'nombre']; 
+    if (!validSortFields.includes(sort)) {
+      sort = 'id_categoria'; 
+    }
+
+    // Consulta con paginación y ordenación
+    const { count, rows } = await Category.findAndCountAll({
+      limit: limit,
+      offset: offset,
+      order: [[sort, order]] // Orden dinámico basado en los parámetros
+    });
+
+    res.status(200).json({
+      totalPages: Math.ceil(count / limit),
+      currentPage: page,
+      totalCategories: count,
+      categories: rows
+    });
   } catch (error) {
-    console.error('Error al obtener las categorías', error);
+    console.error('Error al obtener las categorias:', error);
     res.status(500).json({ error: 'Error interno del servidor' });
   }
 };

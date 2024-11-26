@@ -8,7 +8,7 @@ export const getAllProducts = async (req, res) => {
 
     // Obtén los parámetros 'sortBy' y 'order' de la solicitud
     let sort = req.query.sort;
-    const order = req.query.order === 'ASC' ? 'ASC' : 'DESC'; // Orden por defecto a 'DESC'
+    const order = req.query.order || 'ASC'; 
 
     // Validar que 'sortBy' sea 'huella_carbono' o 'nombre'
     const validSortFields = ['huella_carbono', 'nombre','precio'];

@@ -2,11 +2,36 @@ import User from '../models/userModel.js';
 
 export const getAllUsers = async (req, res) => {
   try {
-    const users = await User.findAll();
-    res.json(users);
+    const page = parseInt(req.query.page) || 1; 
+    const limit = parseInt(req.query.limit) || 10; 
+    const offset = (page - 1) * limit; // Cálculo del desplazamiento para la paginación
+
+    // Parámetros de ordenación
+    let sort = req.query.sort || 'id_usuario'; // Campo de ordenación por defecto
+    const order = req.query.order || 'ASC'; 
+
+    // Validación de campos válidos para ordenación
+    const validSortFields = ['id_usuario', 'nombre','estado_cuenta']; 
+    if (!validSortFields.includes(sort)) {
+      sort = 'id_usuario'; 
+    }
+
+    // Consulta con paginación y ordenación
+    const { count, rows } = await User.findAndCountAll({
+      limit: limit,
+      offset: offset,
+      order: [[sort, order]] // Orden dinámico basado en los parámetros
+    });
+
+    res.status(200).json({
+      totalPages: Math.ceil(count / limit),
+      currentPage: page,
+      totalUsers: count,
+      users: rows
+    });
   } catch (error) {
-    res.status(500).json({ error: "Error interno del servidor" });
-    console.error("Error al obtener los usuarios:", error);
+    console.error('Error al obtener los usuarios:', error);
+    res.status(500).json({ error: 'Error interno del servidor' });
   }
 };
 

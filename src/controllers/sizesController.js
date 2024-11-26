@@ -2,13 +2,38 @@ import Sizes from '../models/sizesModels.js';
 
 export const getAllsizes = async (req, res) => {
     try {
-        const sizes = await Sizes.findAll();
-        res.json(sizes);
+      const page = parseInt(req.query.page) || 1; 
+      const limit = parseInt(req.query.limit) || 10; 
+      const offset = (page - 1) * limit; // Cálculo del desplazamiento para la paginación
+  
+      // Parámetros de ordenación
+      let sort = req.query.sort || 'id_talla'; // Campo de ordenación por defecto
+      const order = req.query.order || 'ASC'; 
+  
+      // Validación de campos válidos para ordenación
+      const validSortFields = ['id_talla', 'nombre']; 
+      if (!validSortFields.includes(sort)) {
+        sort = 'id_talla'; 
+      }
+  
+      // Consulta con paginación y ordenación
+      const { count, rows } = await Sizes.findAndCountAll({
+        limit: limit,
+        offset: offset,
+        order: [[sort, order]] // Orden dinámico basado en los parámetros
+      });
+  
+      res.status(200).json({
+        totalPages: Math.ceil(count / limit),
+        currentPage: page,
+        totalSizes: count,
+        sizes: rows
+      });
     } catch (error) {
-        console.error('Error al obtener las tallas',error);
-        res.status(500).json({ error: 'Error interno del servidor' });
+      console.error('Error al obtener las tallas:', error);
+      res.status(500).json({ error: 'Error interno del servidor' });
     }
-};
+  };
 
 export const getSizesById = async (req, res) => {
     const id_talla = req.params.id;
