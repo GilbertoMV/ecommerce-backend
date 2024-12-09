@@ -53,14 +53,36 @@ export const getProductById = async (req, res) => {
 export const getProductByCategory = async (req, res) => {
   const id_categoria = req.params.id;
   try {
-    const product = await Product.findAll({ where : { id_categoria} } );
-    if(!product){
-      res.status(404).json({ error: 'Producto(s) no encontrados' });
-      return;
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const offset = (page - 1) * limit;
+
+    // Obtén los parámetros 'sortBy' y 'order' de la solicitud
+    let sort = req.query.sort;
+    const order = req.query.order || 'ASC'; 
+
+    // Validar que 'sortBy' sea 'huella_carbono' o 'nombre'
+    const validSortFields = ['huella_carbono', 'nombre','precio'];
+    if (!validSortFields.includes(sort)) {
+      sort = 'huella_carbono'; // Campo por defecto si no es válido
     }
-    res.json(product);
+
+    // Consulta con paginación y orden dinámico
+    const { count, rows } = await Product.findAndCountAll({
+      where: { id_categoria },
+      limit: limit,
+      offset: offset,
+      order: [[sort, order]] // Orden dinámico basado en los parámetros validados
+    });
+
+    res.status(200).json({
+      totalPages: Math.ceil(count / limit),
+      currentPage: page,
+      totalProducts: count,
+      products: rows
+    });
   } catch (error) {
-    console.error('Error al obtener producto(s) por categoría:', error);
+    console.error('Error al obtener los productos del catálogo:', error);
     res.status(500).json({ error: 'Error interno del servidor' });
   }
 };
