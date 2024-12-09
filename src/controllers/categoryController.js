@@ -50,21 +50,6 @@ export const getCategoryById = async (req, res) => {
   }
 };
 
-export const deleteCategory = async (req, res) => {
-  const id_categoria = req.params.id;
-  try {
-    const result = await Category.destroy({ where: { id_categoria } });
-    if (result > 0) {
-      res.json({ message: 'Categoría eliminada exitosamente' });
-    } else {
-      res.status(404).json({ error: 'Categoría no encontrada' });
-    }
-  } catch (error) {
-    console.error('Error al eliminar la categoría:', error);
-    res.status(500).json({ error: 'Error interno del servidor' });
-  }
-};
-
 export const createCategory = async (req, res) => {
   const { nombre, descripcion,url_imagen } = req.body;
   try {
@@ -79,6 +64,7 @@ export const createCategory = async (req, res) => {
     res.status(500).json({ error: 'Error interno del servidor' });
   }
 };
+
 
 export const updateCategory = async (req, res) => {
   const id_categoria = req.params.id;
@@ -96,6 +82,21 @@ export const updateCategory = async (req, res) => {
     }
   } catch (error) {
     console.error('Error al actualizar la categoría:', error);
+    res.status(500).json({ error: 'Error interno del servidor' });
+  }
+};
+
+export const deleteCategory = async (req, res) => {
+  const id_categoria = req.params.id;
+  try {
+    const result = await Category.destroy({ where: { id_categoria } });
+    if (result > 0) {
+      res.json({ message: 'Categoría eliminada exitosamente' });
+    } else {
+      res.status(404).json({ error: 'Categoría no encontrada' });
+    }
+  } catch (error) {
+    console.error('Error al eliminar la categoría:', error);
     res.status(500).json({ error: 'Error interno del servidor' });
   }
 };

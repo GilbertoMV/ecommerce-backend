@@ -41,7 +41,7 @@ export const getHistoryOrderById = async (req, res) => {
     }
 };
 
-export const getHistoryOrderByProduct = async (req, res) => {
+export const getHistoryOrderByOrder = async (req, res) => {
     const id_pedido = req.params.id;
     try {
         const historyOrders = await History_order.findAll({ where : { id_pedido } });

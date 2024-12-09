@@ -35,6 +35,21 @@ export const getAllOrders = async (req, res) => {
     }
   };
 
+ export const getOrderById = async (req, res) => {
+    const id_pedido = req.params.id;
+    try {
+        const order = await Order.findByPk(id_pedido);
+        if(!order){
+            res.status(404).json({ error: 'Pedido no encontrado' });
+            return;
+        }
+        res.json(order);
+    } catch (error) {
+        console.error('Error al obtener pedido(s)',error);
+        res.status(500).json({ error: 'Error interno del servidor' });
+    }
+};
+
 export const getOrderByUser = async (req, res) => {
     const id_usuario = req.params.id;
     try {
@@ -50,33 +65,18 @@ export const getOrderByUser = async (req, res) => {
     }
 };
 
-export const getOrderById = async (req, res) => {
-    const id_pedido = req.params.id;
+export const getOrderByAddress = async (req, res) => {
+    const id_direccion_destino = req.params.id
     try {
-        const order = await Order.findByPk(id_pedido);
+        const order = await Order.findAll({ where: { id_direccion_destino }});
         if(!order){
-            res.status(404).json({ error: 'Pedido no encontrado' });
+            res.status(404).json({ error: 'Pedido(s) no encontrados' });
             return;
         }
         res.json(order);
     } catch (error) {
         console.error('Error al obtener pedido(s)',error);
-        res.status(500).json({ error: 'Error interno del servidor' });
-    }
-};
-
-export const deleteOrder = async (req, res) => {
-    const id_pedido = req.params.id;
-    try {
-        const result = await Order.destroy({ where: { id_pedido } });
-        if(result > 0) {
-            res.json({ message: 'Pedido eliminado exitosamente'}).status(204);
-        } else {
-            res.status(404).json({ error: 'Pedido no encontrado' });
-        }
-    } catch (error) {
-        console.error('Error al eliminar pedido', error);
-        res.status(500).json({ error: 'Error interno del servidor' });
+        res.status(500).json({ error: 'Error interno del servidor' }); 
     }
 };
 
@@ -115,6 +115,21 @@ export const updateOrder = async (req, res) => {
         }
     } catch (error) {
         console.error('Error al actualizar pedido', error);
+        res.status(500).json({ error: 'Error interno del servidor' });
+    }
+};
+
+export const deleteOrder = async (req, res) => {
+    const id_pedido = req.params.id;
+    try {
+        const result = await Order.destroy({ where: { id_pedido } });
+        if(result > 0) {
+            res.json({ message: 'Pedido eliminado exitosamente'}).status(204);
+        } else {
+            res.status(404).json({ error: 'Pedido no encontrado' });
+        }
+    } catch (error) {
+        console.error('Error al eliminar pedido', error);
         res.status(500).json({ error: 'Error interno del servidor' });
     }
 };

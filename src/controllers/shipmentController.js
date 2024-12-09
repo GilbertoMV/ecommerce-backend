@@ -40,21 +40,6 @@ export const getShipmentByOrder = async (req,res) =>{
     }
 };
 
-export const deleteShipment = async (req,res) => {
-    const id_envios = req.params.id;
-    try {
-        const result = await Shipment.destroy({ where: { id_envios }});
-        if (result > 0){
-            res.json({ message: 'Envio eliminado '});
-        }else{
-            res.status(404).json({ error: 'Envio no encontrado'})
-        }
-    } catch (error) {
-        console.error('Error al eliminar el envio', error);
-        res.status(500).json({ error: 'Error interno del servidor'});
-    }
-};
-
 export const createShipment = async (req,res) => {
     const {id_pedido, provedor, costo, tiempo_estimado_entrega, estado, tipo_envio} = req.body
     try {
@@ -93,5 +78,20 @@ export const updateShipment = async (req,res) =>{
     } catch (error) {
         console.error('Error al actualizar el envio:', error);
         res.status(500).json({ error: 'Error interno del servidor' });
+    }
+};
+
+export const deleteShipment = async (req,res) => {
+    const id_envios = req.params.id;
+    try {
+        const result = await Shipment.destroy({ where: { id_envios }});
+        if (result > 0){
+            res.json({ message: 'Envio eliminado '});
+        }else{
+            res.status(404).json({ error: 'Envio no encontrado'})
+        }
+    } catch (error) {
+        console.error('Error al eliminar el envio', error);
+        res.status(500).json({ error: 'Error interno del servidor'});
     }
 };

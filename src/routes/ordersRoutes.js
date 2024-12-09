@@ -3,6 +3,7 @@ import {
     getAllOrders,
     getOrderById,
     getOrderByUser,
+    getOrderByAddress,
     deleteOrder,
     createOrder,
     updateOrder
@@ -13,6 +14,7 @@ const router = express.Router();
 router.get('/', getAllOrders);      
 router.get('/:id', getOrderById);
 router.get('/me/:id',getOrderByUser);
+router.get('/address/:id', getOrderByAddress);
 router.delete('/:id',deleteOrder);
 router.post('/',createOrder);
 router.put('/:id',updateOrder);

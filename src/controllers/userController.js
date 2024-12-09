@@ -67,21 +67,6 @@ export const getUserById = async (req, res) => {
   }
 };
 
-export const deleteUser = async (req, res) => {
-  const id_usuario = req.params.id;
-  try {
-    const result = await User.destroy({ where: { id_usuario } });
-    if (result > 0) {
-      res.json({ message: "Usuario eliminado exitosamente" });
-    } else {
-      res.status(404).json({ error: "Usuario no encontrado" });
-    }
-  } catch (error) {
-    console.error("Error al eliminar el usuario:", error);
-    res.status(500).json({ error: "Error interno del servidor" });
-  }
-};
-
 export const updateUser = async (req, res) => {
   const id_usuario = req.params.id;
   const { correo, ...userData } = req.body;
@@ -107,4 +92,19 @@ export const updateUser = async (req, res) => {
     res.status(500).json({ error: "Error interno del servidor" });
   }
   
+};
+
+export const deleteUser = async (req, res) => {
+  const id_usuario = req.params.id;
+  try {
+    const result = await User.destroy({ where: { id_usuario } });
+    if (result > 0) {
+      res.json({ message: "Usuario eliminado exitosamente" });
+    } else {
+      res.status(404).json({ error: "Usuario no encontrado" });
+    }
+  } catch (error) {
+    console.error("Error al eliminar el usuario:", error);
+    res.status(500).json({ error: "Error interno del servidor" });
+  }
 };
