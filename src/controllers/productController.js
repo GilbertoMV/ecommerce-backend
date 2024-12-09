@@ -1,4 +1,5 @@
 import Product from '../models/productModel.js';
+import Image from '../models/imageModel.js';
 
 export const getAllProducts = async (req, res) => {
   try {
@@ -57,29 +58,39 @@ export const getProductByCategory = async (req, res) => {
     const limit = parseInt(req.query.limit) || 10;
     const offset = (page - 1) * limit;
 
-    // Obtén los parámetros 'sortBy' y 'order' de la solicitud
     let sort = req.query.sort;
-    const order = req.query.order || 'ASC'; 
+    const order = req.query.order || 'ASC';
 
-    // Validar que 'sortBy' sea 'huella_carbono' o 'nombre'
-    const validSortFields = ['huella_carbono', 'nombre','precio'];
+    const validSortFields = ['huella_carbono', 'nombre', 'precio'];
     if (!validSortFields.includes(sort)) {
-      sort = 'huella_carbono'; // Campo por defecto si no es válido
+      sort = 'huella_carbono';
     }
 
-    // Consulta con paginación y orden dinámico
     const { count, rows } = await Product.findAndCountAll({
       where: { id_categoria },
       limit: limit,
       offset: offset,
-      order: [[sort, order]] // Orden dinámico basado en los parámetros validados
+      order: [[sort, order]], 
+      include: [{
+        model: Image,
+        attributes: ['url_imagen']
+      }]
+    });
+
+    const productsWithImages = rows.map(product => {
+      const productJSON = product.toJSON();
+
+      productJSON.imagenes = productJSON.Images.map(image => image.url_imagen);
+      delete productJSON.Images;
+
+      return productJSON;
     });
 
     res.status(200).json({
       totalPages: Math.ceil(count / limit),
       currentPage: page,
       totalProducts: count,
-      products: rows
+      products: productsWithImages
     });
   } catch (error) {
     console.error('Error al obtener los productos del catálogo:', error);

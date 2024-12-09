@@ -31,11 +31,11 @@ const Product = sequelize.define('Product', {
     type: DataTypes.DECIMAL(5,2),
     allowNull: false,
   },
-  existencias:{
+  existencias: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
-  huella_carbono:{
+  huella_carbono: {
     type: DataTypes.DECIMAL(5,2),
     allowNull: false,
   },

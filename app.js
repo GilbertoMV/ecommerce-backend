@@ -4,6 +4,7 @@ import morgan from "morgan";
 import cors from 'cors';
 import dotenv from 'dotenv';
 import passport from 'passport';
+import './src/associations/associations.js'
 import './src/controllers/facebook_authController.js';
 
 import product from "./src/routes/productRoutes.js"
